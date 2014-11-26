@@ -156,9 +156,7 @@ gulp.task('template', ['template:toc']);
  */
 gulp.task('browser-sync', ['template'], function() {
     browserSync({
-        server: {
-            baseDir: './app'
-        }
+        server: ['.tmp', 'app']
     });
 });
 
