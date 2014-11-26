@@ -10,10 +10,13 @@
     "gulp-file-include": "^0.5.1",
     "gulp-imagemin": "^1.0.1",
     "gulp-load-plugins": "^0.7.0",
+    "gulp-prompt": "^0.1.1",
     "gulp-px2rem": "0.0.1",
     "gulp-sane-watch": "0.0.4",
     "gulp-sass": "^1.1.0",
-    "gulp-template": "^1.1.1"
+    "gulp-template": "^1.1.1",
+    "gulp-zip": "^2.0.2",
+    "run-sequence": "^1.0.2"
   },
   "engines": {
     "node": ">=0.10.0"
