@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Gulp sitebuild app - {% block title %}{% endblock %}</title>
+    <!-- build:css css/main.css -->
+    {% block head %}
+    <link rel="stylesheet" href="css/main.css">
+    {% endblock %}
+    <!-- endbuild -->
+</head>
+<body>
+    {% block content %}{% endblock %}
+
+    <!-- build:js js/main.js -->
+    {% block scripts %}
+    <script src="js/main.js"></script>
+    {% endblock %}
+    <!-- endbuild -->
+</body>
+</html>
