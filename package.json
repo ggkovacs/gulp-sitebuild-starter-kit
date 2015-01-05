@@ -1,7 +1,10 @@
 {
   "name": "GulpSitebuildApp",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-file-include": "^0.7.1",
+    "gulp-template": "^2.0.0"
+  },
   "devDependencies": {
     "browser-sync": "^1.7.1",
     "del": "^0.1.3",
