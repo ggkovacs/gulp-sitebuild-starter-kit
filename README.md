@@ -1,5 +1,19 @@
-# [gulp](https://github.com/gulpjs/gulp)-sitebuild-app
-Version: **0.0.0**
+# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit
+Version: **1.0.0**
+
+# Quickstart
+Download the kit or clone this repository and build on what is included in the app directory.
+
+# Browser Support
+At present, we officially aim to support the following browsers:
+
+- ie >= 9
+- ff >= 30
+- chrome >= 34
+- safari >= 7
+- opera >= 23
+
+This is not to say that kit cannot be used in browsers older than those reflected, but merely that our focus will be on ensuring our layouts work great in the above.
 
 # License
-MIT (c) 2014 Gergely Kovács (gg.kovacs@gmail.com)
+MIT (c) 2015 Gergely Kovács (gg.kovacs@gmail.com)

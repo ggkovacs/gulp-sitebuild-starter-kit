@@ -11,14 +11,28 @@ var browserSync = require('browser-sync');
 var $ = require('gulp-load-plugins')();
 
 /**
+ * Autoprefixer browser
+ * @type {Array}
+ */
+var AUTOPREFIXER_BROWSERS = [
+    'ie >= 9',
+    'ff >= 30',
+    'chrome >= 34',
+    'safari >= 7',
+    'opera >= 23'
+];
+
+/**
  * Styles
  */
 gulp.task('styles', function() {
-    return gulp.src('app/scss/main.scss')
+    return gulp.src('app/styles/main.scss')
         .pipe($.sass({
             errLogToConsole: true
         }))
-        .pipe($.autoprefixer('last 3 version'))
+        .pipe($.autoprefixer({
+            browsers: AUTOPREFIXER_BROWSERS
+        }))
         .pipe($.px2rem())
         .pipe(gulp.dest('.tmp/css'))
         .pipe(browserSync.reload({stream:true}));
@@ -28,13 +42,13 @@ gulp.task('styles', function() {
  * Images
  */
 gulp.task('images', function() {
-    return gulp.src('app/img/**/*')
+    return gulp.src('app/images/**/*')
         .pipe($.imagemin({
             optimizationLevel: 3,
             progressive: true,
             interlaced: true
         }))
-        .pipe(gulp.dest('dist/img'));
+        .pipe(gulp.dest('dist/images'));
 });
 
 /**
@@ -165,15 +179,14 @@ gulp.task('browser-sync', ['template'], function() {
  * Watch
  */
 gulp.task('watch', ['browser-sync'], function() {
-    // Watch for changes
     $.saneWatch([
-        'app/js/**/*.js',
-        'app/img/**/*'
+        'app/scripts/**/*.js',
+        'app/images/**/*'
     ], function(filename, filepath) {
         browserSync.reload(path.join(filepath, filename));
     });
 
-    $.saneWatch('app/scss/**/*.scss', function() {
+    $.saneWatch('app/styles/**/*.scss', function() {
         gulp.start('styles');
     });
 
