@@ -35,5 +35,9 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 # Bower packages
 - jQuery (optional)
 
+# Inspiration
+
+Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
+
 # License
 MIT (c) 2015 Gergely Kovács (gg.kovacs@gmail.com)
