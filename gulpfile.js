@@ -214,7 +214,7 @@ gulp.task('browser-sync', ['template'], function() {
 });
 
 /**
- * Watch
+ * Serve
  */
 gulp.task('serve', ['browser-sync'], function() {
     $.saneWatch([
