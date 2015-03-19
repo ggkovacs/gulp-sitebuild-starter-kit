@@ -30,7 +30,6 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 - gulp-swig
 - gulp-uglify
 - gulp-zip
-
 - gulp-ng-annotate (optional)
 
 # Bower packages
