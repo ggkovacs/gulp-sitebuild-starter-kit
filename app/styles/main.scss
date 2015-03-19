@@ -7,8 +7,7 @@
 @import 'base/typography';
 
 // Vendors
-@import 'vendors/bootstrap';
-@import 'vendors/jquery-ui';
+// @import 'vendors/';
 
 // Globals
 @import 'globals/variables';
@@ -18,12 +17,10 @@
 
 // Components
 @import 'components/buttons';
-@import 'components/carousel';
-@import 'components/cover';
-@import 'components/dropdown';
 @import 'components/forms';
 
 // Layout
+@import 'layout/layout';
 @import 'layout/grid';
 @import 'layout/header';
 @import 'layout/footer';
@@ -31,4 +28,4 @@
 @import 'layout/sidebar';
 
 // Widgets
-//@import 'widgets/';
+// @import 'widgets/';
