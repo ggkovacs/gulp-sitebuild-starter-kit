@@ -1,0 +1,7 @@
+{
+  "name": "GulpSitebuildStarterKit",
+  "private": true,
+  "devDependencies": {
+    "jquery": "~2.1.3"
+  }
+}
