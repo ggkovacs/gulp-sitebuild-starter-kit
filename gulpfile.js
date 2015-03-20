@@ -1,4 +1,28 @@
-/* jshint node: true */
+/**
+ *
+ * Gulp sitebuild starter kit
+ * Copyright 2015 Gergely Kovács (gg.kovacs@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ */
+
 'use strict';
 
 var gulp = require('gulp');
@@ -12,10 +36,7 @@ var reload = browserSync.reload;
 // Load plugins
 var $ = require('gulp-load-plugins')();
 
-/**
- * Autoprefixer browser
- * @type {Array}
- */
+// Autoprefixer browser
 var AUTOPREFIXER_BROWSERS = [
     'ie >= 9',
     'ff >= 30',
@@ -24,9 +45,24 @@ var AUTOPREFIXER_BROWSERS = [
     'opera >= 23'
 ];
 
-/**
- * Styles
- */
+// JSHint
+gulp.task('jshint', function() {
+    return gulp.src('app/scripts/**/*.js')
+        .pipe($.jshint())
+        .pipe($.jshint.reporter('jshint-stylish'))
+        .pipe($.jshint.reporter('fail'));
+});
+
+// JSCS
+gulp.task('jscs', function() {
+    return gulp.src('app/scripts/**/*.js')
+        .pipe($.jscs('.jscsrc'));
+});
+
+// Test javascript (jshint, jscs)
+gulp.task('test:js', ['jshint', 'jscs']);
+
+// Styles
 gulp.task('styles', function() {
     return gulp.src('app/styles/main.scss')
         .pipe($.sourcemaps.init())
@@ -42,12 +78,13 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('.tmp/css'))
         .pipe(reload({
             stream: true
+        }))
+        .pipe($.size({
+            title: 'styles'
         }));
 });
 
-/**
- * Images
- */
+// Images
 gulp.task('images', function() {
     return gulp.src('app/images/**/*')
         .pipe($.imagemin({
@@ -59,39 +96,42 @@ gulp.task('images', function() {
                 cleanupIDs: false
             }]
         }))
-        .pipe(gulp.dest('dist/images'));
+        .pipe(gulp.dest('dist/images'))
+        .pipe($.size({
+            title: 'images'
+        }));
 });
 
-/**
- * Fonts
- */
+// Fonts
 gulp.task('fonts', function() {
     return gulp.src('app/fonts/**/*.{eot,svg,ttf,woff,woff2}')
-        .pipe(gulp.dest('dist/fonts'));
+        .pipe(gulp.dest('dist/fonts'))
+        .pipe($.size({
+            title: 'fonts'
+        }));
 });
 
-/**
- * Extras
- */
+// Extras
 gulp.task('extras', function() {
     return gulp.src([
         'app/*.*',
-        '!app/*.html'
+        '!app/*.html',
+        'node_modules/apache-server-configs/dist/.htaccess'
     ], {
         dot: true
-    }).pipe(gulp.dest('dist'));
+    })
+        .pipe(gulp.dest('dist'))
+        .pipe($.size({
+            title: 'extras'
+        }));
 });
 
-/**
- * Clean
- */
+// Clean
 gulp.task('clean', function(cb) {
     del(['.tmp', 'dist'], cb);
 });
 
-/**
- * Html
- */
+// Html
 gulp.task('html', ['template', 'styles'], function() {
     var assets = $.useref.assets({
         searchPath:  ['.tmp', 'app', '.']
@@ -103,7 +143,14 @@ gulp.task('html', ['template', 'styles'], function() {
 
     return gulp.src('.tmp/views/*.html')
         .pipe(assets)
+        // Concatenate and minify JavaScript
         .pipe($.if('*.js', jsCompile()))
+        // Remove any unused CSS
+        .pipe($.if('*.css', $.uncss({
+            html: ['.tmp/views/*.html'],
+            // CSS Selectors for UnCSS to ignore
+            ignore: []
+        })))
         .pipe($.if('*.css', $.csso()))
         .pipe($.rev())
         .pipe(assets.restore())
@@ -113,43 +160,39 @@ gulp.task('html', ['template', 'styles'], function() {
             conditionals: true,
             loose: true
         })))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'))
+        .pipe($.size({
+            title: 'html'
+        }));
 });
 
-/**
- * Build
- */
+// Build
 gulp.task('build', ['fonts', 'images', 'extras', 'html']);
 
-/**
- * Default
- */
-gulp.task('default', function(cb) {
+// Default
+gulp.task('default', ['test:js'], function(cb) {
     runSequence('clean', 'build', cb);
 });
 
-/**
- * Zip
- */
+// Zip
 gulp.task('zip', ['default'], function() {
     var date = new Date();
     var datetime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     return gulp.src('dist/**/*.*')
         .pipe($.zip('dist_' + datetime + '.zip'))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest('.'))
+        .pipe($.size({
+            title: 'zip'
+        }));
 });
 
-/**
- * Clean template
- */
-gulp.task('clean:template', function(cb) {
+// Clean templates
+gulp.task('clean:templates', function(cb) {
     del(['.tmp/views/*.html'], cb);
 });
 
-/**
- * Template views
- */
-gulp.task('template:views', ['clean:template'], function() {
+// Template views
+gulp.task('template:views', ['clean:templates'], function() {
     return gulp.src('app/views/*.html')
         .pipe($.swig({
             defaults: {
@@ -159,12 +202,13 @@ gulp.task('template:views', ['clean:template'], function() {
         .pipe(gulp.dest('.tmp/views'))
         .pipe(reload({
             stream: true
+        }))
+        .pipe($.size({
+            title: 'template:views'
         }));
 });
 
-/**
- * Table of contents
- */
+// Table of contents
 gulp.task('template:toc', ['template:views'], function() {
     var fs = require('fs');
     var path = require('path');
@@ -189,17 +233,16 @@ gulp.task('template:toc', ['template:views'], function() {
         .pipe(gulp.dest('.tmp/views'))
         .pipe(reload({
             stream: true
+        }))
+        .pipe($.size({
+            title: 'template:toc'
         }));
 });
 
-/**
- * Template
- */
+// Template
 gulp.task('template', ['template:toc']);
 
-/**
- * Browser sync
- */
+// Browser sync
 gulp.task('browser-sync', ['template'], function() {
     browserSync({
         notify: false,
@@ -213,9 +256,19 @@ gulp.task('browser-sync', ['template'], function() {
     });
 });
 
-/**
- * Serve
- */
+// PageSpeed Insights
+// npm install --save-dev psi
+gulp.task('psi', function(cb) {
+    // Update the below URL to the public URL of your site
+    require('psi').output('example.com', {
+        strategy: 'mobile',
+        // By default we use the PageSpeed Insights free (no API key) tier.
+        // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
+        // key: 'YOUR_API_KEY'
+    }, cb);
+});
+
+// Serve
 gulp.task('serve', ['browser-sync'], function() {
     $.saneWatch([
         'app/scripts/**/*.js',
@@ -232,3 +285,11 @@ gulp.task('serve', ['browser-sync'], function() {
         gulp.start('template');
     });
 });
+
+// npm install --save-dev require-dir
+// Load custom tasks from the `tasks` directory
+// try {
+//     require('require-dir')('tasks');
+// } catch (err) {
+//     console.error(err);
+// }
