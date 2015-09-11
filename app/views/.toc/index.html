@@ -2,9 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <style>body{margin:0}a{color:#000;text-decoration:none}</style>
+    <title>Table of contents</title>
+    <style>body{background:#efefef;font-family:sans-serif;margin:30px}h1{color:#333;font-size:24px}a{color:#0275d8;line-height:24px;font-size:16px;text-decoration:none;}a:hover{text-decoration:underline}</style>
 </head>
 <body>
+    <h1>Table of contents:</h1>
     <ul>
         {% for item in htmlList %}<li><a href="{{item}}" target="_blank">{{item}}</a></li>{% endfor %}
     </ul>

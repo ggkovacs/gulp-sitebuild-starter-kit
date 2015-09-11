@@ -1,107 +1,48 @@
-# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit
-Version: **1.0.2**
+# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![devDependency Status][daviddm-image]][daviddm-url]
+> Sitebuild starter kit with gulp
+
+Version: **2.0.0**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the app directory.
 
-[Download](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/releases/latest) and run `$ npm install -g gulp bower && npm install && bower install` in that directory to get started.
-
-## Install
-
-## Getting the code
-
-[Download](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/releases/latest) and extract to where you want to work.
-
-## Before work
-
-### [Node.js](https://nodejs.org)
-Open a terminal and type `node --version`.
-Node should respond with a version at or above 0.10.x.
-If you require Node, go to [nodejs.org](https://nodejs.org) and click on the install button.
-
-### [Gulp](http://gulpjs.com)
+[Download](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/releases/latest) and run the follwing code in that directory to get started.
 
 ```sh
-$ npm install -g gulp
+$ npm install -g gulp bower && npm install
 ```
 
-### [Bower](http://bower.io)
+## Features
 
-```sh
-$ npm install -g bower
-```
+Please see our [gulpfile](gulpfile.babel.js) for up to date information on what we support.
 
-### Local dependencies
-#### npm packages
+* CSS Autoprefixing
+* Built-in preview server with BrowserSync
+* Automatically compile Sass with [libsass](http://libsass.org)
+* Automatically lint your scripts
+* Map compiled CSS to source stylesheets with source maps
+* Awesome image optimization
+* Automatically wire-up dependencies installed with [Bower](http://bower.io)
+* Automatically generates html files from [Swig](http://paularmstrong.github.io/swig/) templates
+* Automatically generates table of contents from html files
+* The gulpfile makes use of [ES2015 features](https://babeljs.io/docs/learn-es2015/) by using [Babel](https://babeljs.io)
 
-```sh
-$ npm install
-```
+*For more information on what this generator can do for you, take a look at the [gulp plugins](package.json) used in our `package.json`.*
 
-#### bower packages
+## libsass
 
-```sh
-$ bower install
-```
+Keep in mind that libsass is feature-wise not fully compatible with Ruby Sass. Check out [this](http://sass-compatibility.github.io) curated list of incompatibilities to find out which features are missing.
 
-## Commands
+If your favorite feature is missing and you really need Ruby Sass, you can always switch to [gulp-ruby-sass](https://github.com/sindresorhus/gulp-ruby-sass) and update the `styles` task in gulpfile accordingly.
 
-### Watch for changes and automatically refresh across devices
+## Getting Started
 
-```sh
-$ gulp serve
-```
-
-### Compile/build & optimize
-
-```sh
-$ gulp
-```
-
-### Compile/build & optimize & generate zip
-
-```sh
-$ gulp zip
-```
-
-### PageSpeed Insights (optional)
-
-```sh
-$ gulp psi
-```
-
-## Packages
-
-### Main npm packages
-- apache-server-configs
-- browser-sync
-- gulp
-- gulp-autoprefixer
-- gulp-csso
-- gulp-imagemin
-- gulp-jscs
-- gulp-jshint
-- gulp-minify-html
-- gulp-rev
-- gulp-rev-replace
-- gulp-sane-watch
-- gulp-sass
-- gulp-size
-- gulp-sourcemaps
-- gulp-swig
-- gulp-uglify
-- gulp-uncss
-- gulp-zip
-- gulp.spritesmith (soon)
-- jshint-stylish
-
-### Optional npm packages
-- require-dir (optional)
-- psi (optional)
-- gulp-ng-annotate (optional)
-
-### Bower packages
-- jQuery
+- Install dependencies: `npm install --global gulp bower`
+- Run `gulp serve` to preview and watch for changes
+- Run `bower install --save <package>` to install frontend dependencies
+- Run `gulp` to build and optimize your sitebuild
+- Run `gulp zip` to build, optimize and generate zip
+- Run `gulp psi` to pagespeed insights (optional task)
 
 ## Browser Support
 At present, we officially aim to support the following browsers:
@@ -119,4 +60,7 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
 
 ## License
-MIT (c) 2015 Gergely Kovács (gg.kovacs@gmail.com)
+MIT © 2015 Gergely Kovács (gg.kovacs@gmail.com)
+
+[daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
+[daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies

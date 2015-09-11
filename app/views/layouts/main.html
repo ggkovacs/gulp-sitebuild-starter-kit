@@ -5,24 +5,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
     <title>Gulp sitebuild starter kit - {% block title %}{% endblock %}</title>
     <!-- build:css css/main.css -->
-    {% block head %}
     <link rel="stylesheet" href="css/main.css">
-    {% endblock %}
+    {% block after-main-css %}{% endblock %}
     <!-- endbuild -->
 </head>
 <body>
     {% block content %}{% endblock %}
 
     <!-- build:js scripts/vendors.js -->
-    {% block vendors %}
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    {% endblock %}
+    {% block after-vendors-js %}{% endblock %}
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
-    {% block scripts %}
     <script src="scripts/main.js"></script>
-    {% endblock %}
+    {% block after-main-js %}{% endblock %}
     <!-- endbuild -->
 </body>
 </html>

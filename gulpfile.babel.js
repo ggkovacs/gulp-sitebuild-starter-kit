@@ -23,26 +23,27 @@
  *
  */
 
+/* jshint node: true */
 'use strict';
 
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var del = require('del');
-var path = require('path');
-var browserSync = require('browser-sync');
-var lazypipe = require('lazypipe');
-var reload = browserSync.reload;
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import runSequence from 'run-sequence';
+import del from 'del';
+import browserSync from 'browser-sync';
+import path from 'path';
+import lazypipe from 'lazypipe';
 
-// Load plugins
-var $ = require('gulp-load-plugins')();
+const reload = browserSync.reload;
+const $ = gulpLoadPlugins();
 
 // Autoprefixer browser
-var AUTOPREFIXER_BROWSERS = [
+const AUTOPREFIXER_BROWSERS = [
     'ie >= 9',
     'ff >= 30',
     'chrome >= 34',
     'safari >= 7',
-    'opera >= 23'
+    'opera >= 23',
 ];
 
 // JSHint
@@ -54,7 +55,7 @@ gulp.task('jshint', function() {
 });
 
 // JSCS
-gulp.task('jscs', function() {
+gulp.task('jscs', () => {
     return gulp.src('app/scripts/**/*.js')
         .pipe($.jscs('.jscsrc'));
 });
@@ -63,93 +64,99 @@ gulp.task('jscs', function() {
 gulp.task('test:js', ['jshint', 'jscs']);
 
 // Styles
-gulp.task('styles', function() {
-    return gulp.src('app/styles/main.scss')
+gulp.task('styles', () => {
+    return gulp.src('app/styles/main.sass')
         .pipe($.sourcemaps.init())
         .pipe($.sass({
+            indentedSyntax: true,
             outputStyle: 'nested',
             precision: 10,
-            onError: console.error.bind(console, 'Sass error:')
+            onError: console.error.bind(console, 'Sass error:'),
         }))
         .pipe($.autoprefixer({
-            browsers: AUTOPREFIXER_BROWSERS
+            browsers: AUTOPREFIXER_BROWSERS,
         }))
         .pipe($.sourcemaps.write())
         .pipe(gulp.dest('.tmp/css'))
-        .pipe(reload({
-            stream: true
-        }))
+        .pipe($.if(browserSync.active, reload({
+            stream: true,
+        })))
         .pipe($.size({
-            title: 'styles'
+            title: 'styles',
         }));
 });
 
 // Images
-gulp.task('images', function() {
+gulp.task('images', () => {
     return gulp.src('app/images/**/*')
         .pipe($.imagemin({
             progressive: true,
             interlaced: true,
+
             // don't remove IDs from SVGs, they are often used
             // as hooks for embedding and styling
             svgoPlugins: [{
-                cleanupIDs: false
-            }]
+                cleanupIDs: false,
+            },],
         }))
         .pipe(gulp.dest('dist/images'))
         .pipe($.size({
-            title: 'images'
+            title: 'images',
         }));
 });
 
 // Fonts
-gulp.task('fonts', function() {
+gulp.task('fonts', () => {
     return gulp.src('app/fonts/**/*.{eot,svg,ttf,woff,woff2}')
         .pipe(gulp.dest('dist/fonts'))
         .pipe($.size({
-            title: 'fonts'
+            title: 'fonts',
         }));
 });
 
 // Extras
-gulp.task('extras', function() {
+gulp.task('extras', () => {
     return gulp.src([
         'app/*.*',
         '!app/*.html',
-        'node_modules/apache-server-configs/dist/.htaccess'
+        'node_modules/apache-server-configs/dist/.htaccess',
     ], {
-        dot: true
+        dot: true,
     })
         .pipe(gulp.dest('dist'))
         .pipe($.size({
-            title: 'extras'
+            title: 'extras',
         }));
 });
 
 // Clean
-gulp.task('clean', function(cb) {
-    del(['.tmp', 'dist'], cb);
+gulp.task('clean', () => {
+    return del(['.tmp', 'dist']);
 });
 
 // Html
-gulp.task('html', ['template', 'styles'], function() {
-    var assets = $.useref.assets({
-        searchPath:  ['.tmp', 'app', '.']
+gulp.task('html', ['template', 'styles'], () => {
+    let assets = $.useref.assets({
+        searchPath:  ['.tmp', 'app', '.'],
     });
-    var jsCompile = lazypipe()
+    let jsCompile = lazypipe()
+
         // npm install --save-dev gulp-ng-annotate
         //.pipe($.ngAnnotate)
         .pipe($.uglify);
 
     return gulp.src('.tmp/views/*.html')
         .pipe(assets)
+
         // Concatenate and minify JavaScript
         .pipe($.if('*.js', jsCompile()))
+
         // Remove any unused CSS
         .pipe($.if('*.css', $.uncss({
             html: ['.tmp/views/*.html'],
+
             // CSS Selectors for UnCSS to ignore
-            ignore: []
+            ignore: [],
         })))
         .pipe($.if('*.css', $.csso()))
         .pipe($.rev())
@@ -158,11 +165,11 @@ gulp.task('html', ['template', 'styles'], function() {
         .pipe($.revReplace())
         .pipe($.if('*.html', $.minifyHtml({
             conditionals: true,
-            loose: true
+            loose: true,
         })))
         .pipe(gulp.dest('dist'))
         .pipe($.size({
-            title: 'html'
+            title: 'html',
         }));
 });
 
@@ -170,52 +177,52 @@ gulp.task('html', ['template', 'styles'], function() {
 gulp.task('build', ['fonts', 'images', 'extras', 'html']);
 
 // Default
-gulp.task('default', ['test:js'], function(cb) {
+gulp.task('default', ['test:js'], (cb) => {
     runSequence('clean', 'build', cb);
 });
 
 // Zip
-gulp.task('zip', ['default'], function() {
-    var date = new Date();
-    var datetime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+gulp.task('zip', ['default'], () => {
+    let date = new Date();
+    let datetime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     return gulp.src('dist/**/*.*')
         .pipe($.zip('dist_' + datetime + '.zip'))
         .pipe(gulp.dest('.'))
         .pipe($.size({
-            title: 'zip'
+            title: 'zip',
         }));
 });
 
 // Clean templates
-gulp.task('clean:templates', function(cb) {
-    del(['.tmp/views/*.html'], cb);
+gulp.task('clean:templates', () => {
+    return del(['.tmp/views/*.html']);
 });
 
 // Template views
-gulp.task('template:views', ['clean:templates'], function() {
+gulp.task('template:views', ['clean:templates'], () => {
     return gulp.src('app/views/*.html')
         .pipe($.swig({
             defaults: {
-                cache: false
-            }
+                cache: false,
+            },
         }))
         .pipe(gulp.dest('.tmp/views'))
-        .pipe(reload({
-            stream: true
-        }))
+        .pipe($.if(browserSync.active, reload({
+            stream: true,
+        })))
         .pipe($.size({
-            title: 'template:views'
+            title: 'template:views',
         }));
 });
 
 // Table of contents
-gulp.task('template:toc', ['template:views'], function() {
-    var fs = require('fs');
-    var path = require('path');
-    var list = fs.readdirSync('.tmp/views');
-    var htmlList = [];
+gulp.task('template:toc', ['template:views'], () => {
+    let fs = require('fs');
+    let path = require('path');
+    let list = fs.readdirSync('.tmp/views');
+    let htmlList = [];
 
-    for (var i = 0, l = list.length; i < l; i++) {
+    for (let i = 0, l = list.length; i < l; i++) {
         if (path.extname(list[i]) === '.html') {
             htmlList.push(list[i]);
         }
@@ -224,18 +231,18 @@ gulp.task('template:toc', ['template:views'], function() {
     return gulp.src('app/views/.toc/index.html')
         .pipe($.swig({
             defaults: {
-                cache: false
+                cache: false,
             },
             data: {
-                htmlList: htmlList
-            }
+                htmlList: htmlList,
+            },
         }))
         .pipe(gulp.dest('.tmp/views'))
-        .pipe(reload({
-            stream: true
-        }))
+        .pipe($.if(browserSync.active, reload({
+            stream: true,
+        })))
         .pipe($.size({
-            title: 'template:toc'
+            title: 'template:toc',
         }));
 });
 
@@ -243,25 +250,26 @@ gulp.task('template:toc', ['template:views'], function() {
 gulp.task('template', ['template:toc']);
 
 // Browser sync
-gulp.task('browser-sync', ['template'], function() {
+gulp.task('browser-sync', ['template', 'styles'], () => {
     browserSync({
         notify: false,
         port: 9000,
         server: {
             baseDir: ['.tmp', 'app', '.tmp/views'],
             routes: {
-                '/bower_components': 'bower_components'
-            }
-        }
+                '/bower_components': 'bower_components',
+            },
+        },
     });
 });
 
 // PageSpeed Insights
 // npm install --save-dev psi
-gulp.task('psi', function(cb) {
+gulp.task('psi', (cb) => {
     // Update the below URL to the public URL of your site
     require('psi').output('example.com', {
         strategy: 'mobile',
+
         // By default we use the PageSpeed Insights free (no API key) tier.
         // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
         // key: 'YOUR_API_KEY'
@@ -269,19 +277,19 @@ gulp.task('psi', function(cb) {
 });
 
 // Serve
-gulp.task('serve', ['browser-sync'], function() {
+gulp.task('serve', ['browser-sync'], () => {
     $.saneWatch([
         'app/scripts/**/*.js',
-        'app/images/**/*'
-    ], function(filename, filepath) {
+        'app/images/**/*',
+    ], (filename, filepath) => {
         reload(path.join(filepath, filename));
     });
 
-    $.saneWatch('app/styles/**/*.scss', function() {
+    $.saneWatch('app/styles/**/*.sass', () => {
         gulp.start('styles');
     });
 
-    $.saneWatch('app/views/**/*.html', function() {
+    $.saneWatch('app/views/**/*.html', () => {
         gulp.start('template');
     });
 });
