@@ -1,5 +1,5 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![devDependency Status][daviddm-image]][daviddm-url]
-> Sitebuild starter kit with gulp
+> Sitebuild starter kit based on gulp.js
 
 Version: **2.0.0**
 

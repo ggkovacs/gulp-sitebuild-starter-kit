@@ -25,15 +25,11 @@
     "gulp-uncss": "^1.0.3",
     "gulp-useref": "^1.3.0",
     "gulp-zip": "^3.0.2",
-    "gulp.spritesmith": "^4.1.0",
     "jshint-stylish": "^2.0.1",
     "lazypipe": "^1.0.1",
     "run-sequence": "^1.1.2"
   },
   "engines": {
     "node": ">=0.12.0"
-  },
-  "dependencies": {
-    "merge-stream": "^1.0.0"
   }
 }
