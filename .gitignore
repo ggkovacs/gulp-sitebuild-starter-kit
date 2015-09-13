@@ -4,3 +4,9 @@ dist
 .sass-cache
 bower_components
 .DS_Store
+.idea
+nbproject
+.buildpath
+.project
+.settings
+Thumbs.db
