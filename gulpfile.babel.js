@@ -44,35 +44,38 @@ const AUTOPREFIXER_BROWSERS = [
     'chrome >= 34',
     'safari >= 7',
     'opera >= 23',
+    'ie_mob >= 10',
+    'ios >= 7',
+    'android >= 4.4',
+    'bb >= 10',
 ];
 
 // JSHint
-gulp.task('jshint', function() {
-    return gulp.src('app/scripts/**/*.js')
+gulp.task('jshint', () =>
+    gulp.src('app/scripts/**/*.js')
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'))
-        .pipe($.jshint.reporter('fail'));
-});
+        .pipe($.jshint.reporter('fail'))
+);
 
 // JSCS
-gulp.task('jscs', () => {
-    return gulp.src('app/scripts/**/*.js')
-        .pipe($.jscs('.jscsrc'));
-});
+gulp.task('jscs', () =>
+    gulp.src('app/scripts/**/*.js')
+        .pipe($.jscs('.jscsrc'))
+);
 
 // Test javascript (jshint, jscs)
 gulp.task('test:js', ['jshint', 'jscs']);
 
 // Styles
-gulp.task('styles', () => {
-    return gulp.src('app/styles/main.sass')
+gulp.task('styles', () =>
+    gulp.src('app/styles/**/*.sass')
         .pipe($.sourcemaps.init())
         .pipe($.sass({
             indentedSyntax: true,
             outputStyle: 'nested',
             precision: 10,
-            onError: console.error.bind(console, 'Sass error:'),
-        }))
+        }).on('error', $.sass.logError))
         .pipe($.autoprefixer({
             browsers: AUTOPREFIXER_BROWSERS,
         }))
@@ -83,40 +86,34 @@ gulp.task('styles', () => {
         })))
         .pipe($.size({
             title: 'styles',
-        }));
-});
+        }))
+);
 
 // Images
-gulp.task('images', () => {
-    return gulp.src('app/images/**/*')
-        .pipe($.imagemin({
+gulp.task('images', () =>
+    gulp.src('app/images/**/*')
+        .pipe($.cache($.imagemin({
             progressive: true,
             interlaced: true,
-
-            // don't remove IDs from SVGs, they are often used
-            // as hooks for embedding and styling
-            svgoPlugins: [{
-                cleanupIDs: false,
-            },],
-        }))
+        })))
         .pipe(gulp.dest('dist/images'))
         .pipe($.size({
             title: 'images',
-        }));
-});
+        }))
+);
 
 // Fonts
-gulp.task('fonts', () => {
-    return gulp.src('app/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+gulp.task('fonts', () =>
+    gulp.src('app/fonts/**/*.{eot,svg,ttf,woff,woff2}')
         .pipe(gulp.dest('dist/fonts'))
         .pipe($.size({
             title: 'fonts',
-        }));
-});
+        }))
+);
 
 // Extras
-gulp.task('extras', () => {
-    return gulp.src([
+gulp.task('extras', () =>
+    gulp.src([
         'app/*.*',
         '!app/*.html',
         'node_modules/apache-server-configs/dist/.htaccess',
@@ -126,13 +123,11 @@ gulp.task('extras', () => {
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'extras',
-        }));
-});
+        }))
+);
 
 // Clean
-gulp.task('clean', () => {
-    return del(['.tmp', 'dist']);
-});
+gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 // Html
 gulp.task('html', ['template', 'styles'], () => {
@@ -143,7 +138,7 @@ gulp.task('html', ['template', 'styles'], () => {
 
         // npm install --save-dev gulp-ng-annotate
         //.pipe($.ngAnnotate)
-        .pipe($.uglify);
+        .pipe($.uglify, {preserveComments: 'some'});
 
     return gulp.src('.tmp/views/*.html')
         .pipe(assets)
@@ -156,7 +151,7 @@ gulp.task('html', ['template', 'styles'], () => {
             html: ['.tmp/views/*.html'],
 
             // CSS Selectors for UnCSS to ignore
-            ignore: [],
+            ignore: [/.js/],
         })))
         .pipe($.if('*.css', $.csso()))
         .pipe($.rev())
@@ -177,9 +172,7 @@ gulp.task('html', ['template', 'styles'], () => {
 gulp.task('build', ['fonts', 'images', 'extras', 'html']);
 
 // Default
-gulp.task('default', ['test:js'], (cb) => {
-    runSequence('clean', 'build', cb);
-});
+gulp.task('default', ['test:js'], cb => runSequence('clean', 'build', cb));
 
 // Zip
 gulp.task('zip', ['default'], () => {
@@ -194,13 +187,11 @@ gulp.task('zip', ['default'], () => {
 });
 
 // Clean templates
-gulp.task('clean:templates', () => {
-    return del(['.tmp/views/*.html']);
-});
+gulp.task('clean:templates', () => del(['.tmp/views/*.html']));
 
 // Template views
-gulp.task('template:views', ['clean:templates'], () => {
-    return gulp.src('app/views/*.html')
+gulp.task('template:views', ['clean:templates'], () =>
+    gulp.src('app/views/*.html')
         .pipe($.swig({
             defaults: {
                 cache: false,
@@ -212,8 +203,8 @@ gulp.task('template:views', ['clean:templates'], () => {
         })))
         .pipe($.size({
             title: 'template:views',
-        }));
-});
+        }))
+);
 
 // Table of contents
 gulp.task('template:toc', ['template:views'], () => {
@@ -254,6 +245,7 @@ gulp.task('browser-sync', ['template', 'styles'], () => {
     browserSync({
         notify: false,
         port: 9000,
+        logPrefix: 'GSSK',
         server: {
             baseDir: ['.tmp', 'app', '.tmp/views'],
             routes: {
@@ -265,7 +257,8 @@ gulp.task('browser-sync', ['template', 'styles'], () => {
 
 // PageSpeed Insights
 // npm install --save-dev psi
-gulp.task('psi', (cb) => {
+gulp.task('psi', cb =>
+
     // Update the below URL to the public URL of your site
     require('psi').output('example.com', {
         strategy: 'mobile',
@@ -273,8 +266,8 @@ gulp.task('psi', (cb) => {
         // By default we use the PageSpeed Insights free (no API key) tier.
         // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
         // key: 'YOUR_API_KEY'
-    }, cb);
-});
+    }, cb)
+);
 
 // Serve
 gulp.task('serve', ['browser-sync'], () => {

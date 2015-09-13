@@ -7,6 +7,7 @@
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
+    "gulp-cache": "^0.3.0",
     "gulp-csso": "^1.0.0",
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.3.0",

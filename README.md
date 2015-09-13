@@ -52,6 +52,10 @@ At present, we officially aim to support the following browsers:
 - chrome >= 34
 - safari >= 7
 - opera >= 23
+- ie_mob >= 10
+- ios >= 7
+- android >= 4.4
+- bb >= 10
 
 This is not to say that kit cannot be used in browsers older than those reflected, but merely that our focus will be on ensuring our layouts work great in the above.
 
