@@ -16,7 +16,7 @@ $ npm install -g gulp bower && npm install
 
 Please see our [gulpfile](gulpfile.babel.js) for up to date information on what we support.
 
-* CSS Autoprefixing
+* CSS Autoprefixing 
 * Built-in preview server with BrowserSync
 * Automatically compile Sass with [libsass](http://libsass.org)
 * Automatically lint your scripts

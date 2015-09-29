@@ -33,6 +33,7 @@ import del from 'del';
 import browserSync from 'browser-sync';
 import path from 'path';
 import lazypipe from 'lazypipe';
+import autoprefixer from 'autoprefixer';
 
 const reload = browserSync.reload;
 const $ = gulpLoadPlugins();
@@ -68,7 +69,13 @@ gulp.task('jscs', () =>
 gulp.task('test:js', ['jshint', 'jscs']);
 
 // Styles
-gulp.task('styles', () =>
+gulp.task('styles', () => {
+    let processors = [
+        autoprefixer({
+            browsers: AUTOPREFIXER_BROWSERS,
+        }),
+    ];
+
     gulp.src('app/styles/**/*.sass')
         .pipe($.sourcemaps.init())
         .pipe($.sass({
@@ -76,9 +83,7 @@ gulp.task('styles', () =>
             outputStyle: 'nested',
             precision: 10,
         }).on('error', $.sass.logError))
-        .pipe($.autoprefixer({
-            browsers: AUTOPREFIXER_BROWSERS,
-        }))
+        .pipe($.postcss(processors))
         .pipe($.sourcemaps.write())
         .pipe(gulp.dest('.tmp/css'))
         .pipe($.if(browserSync.active, reload({
@@ -86,8 +91,8 @@ gulp.task('styles', () =>
         })))
         .pipe($.size({
             title: 'styles',
-        }))
-);
+        }));
+});
 
 // Images
 gulp.task('images', () =>
@@ -168,17 +173,14 @@ gulp.task('html', ['template', 'styles'], () => {
         }));
 });
 
-// Build
-gulp.task('build', ['fonts', 'images', 'extras', 'html']);
-
 // Default
-gulp.task('default', ['test:js'], cb => runSequence('clean', 'build', cb));
+gulp.task('default', ['test:js'], cb => runSequence('clean', ['fonts', 'images', 'extras', 'html'], cb));
 
 // Zip
 gulp.task('zip', ['default'], () => {
     let date = new Date();
     let datetime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    return gulp.src('dist/**/*.*')
+    return gulp.src(['dist/**/*.*', '!dist/.git'])
         .pipe($.zip('dist_' + datetime + '.zip'))
         .pipe(gulp.dest('.'))
         .pipe($.size({
@@ -190,7 +192,7 @@ gulp.task('zip', ['default'], () => {
 gulp.task('clean:templates', () => del(['.tmp/views/*.html']));
 
 // Template views
-gulp.task('template:views', ['clean:templates'], () =>
+gulp.task('template:views', () =>
     gulp.src('app/views/*.html')
         .pipe($.swig({
             defaults: {
@@ -207,7 +209,7 @@ gulp.task('template:views', ['clean:templates'], () =>
 );
 
 // Table of contents
-gulp.task('template:toc', ['template:views'], () => {
+gulp.task('template:toc', () => {
     let fs = require('fs');
     let path = require('path');
     let list = fs.readdirSync('.tmp/views');
@@ -238,7 +240,7 @@ gulp.task('template:toc', ['template:views'], () => {
 });
 
 // Template
-gulp.task('template', ['template:toc']);
+gulp.task('template', cb => runSequence('clean:templates', 'template:views', 'template:toc', cb));
 
 // Browser sync
 gulp.task('browser-sync', ['template', 'styles'], () => {
