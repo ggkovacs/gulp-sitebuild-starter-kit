@@ -29,9 +29,16 @@
     "gulp-zip": "^3.0.2",
     "jshint-stylish": "^2.0.1",
     "lazypipe": "^1.0.1",
+    "pre-commit": "^1.1.1",
     "run-sequence": "^1.1.4"
   },
   "engines": {
     "node": ">=0.12.0"
-  }
+  },
+  "scripts": {
+    "test": "gulp commit"
+  },
+  "pre-commit": [
+    "test"
+  ]
 }

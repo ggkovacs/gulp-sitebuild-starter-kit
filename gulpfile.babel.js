@@ -68,6 +68,9 @@ gulp.task('jscs', () =>
 // Test javascript (jshint, jscs)
 gulp.task('test:js', ['jshint', 'jscs']);
 
+// Pre commit task
+gulp.task('commit', ['test:js']);
+
 // Styles
 gulp.task('styles', () => {
     let processors = [
@@ -178,10 +181,8 @@ gulp.task('default', ['test:js'], cb => runSequence('clean', ['fonts', 'images',
 
 // Zip
 gulp.task('zip', ['default'], () => {
-    let date = new Date();
-    let datetime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     return gulp.src(['dist/**/*.*', '!dist/.git'])
-        .pipe($.zip('dist_' + datetime + '.zip'))
+        .pipe($.zip('dist-' + (new Date()).toISOString().slice(0, 19) + '.zip'))
         .pipe(gulp.dest('.'))
         .pipe($.size({
             title: 'zip',
