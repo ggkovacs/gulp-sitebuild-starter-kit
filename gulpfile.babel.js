@@ -181,8 +181,24 @@ gulp.task('default', ['test:js'], cb => runSequence('clean', ['fonts', 'images',
 
 // Zip
 gulp.task('zip', ['default'], () => {
+    function addZero(value) {
+        value = value.toString();
+        return value[1] ? value : '0' + value;
+    }
+
+    function getFormattedDate() {
+        let date = new Date();
+        let year = date.getFullYear().toString();
+        let month = addZero((date.getMonth() + 1));
+        let day = addZero(date.getDate());
+        let hour = addZero(date.getHours());
+        let minute = addZero(date.getMinutes());
+
+        return year + month + day  + hour + minute;
+    }
+
     return gulp.src(['dist/**/*.*', '!dist/.git'])
-        .pipe($.zip('dist-' + (new Date()).toISOString().slice(0, 19) + '.zip'))
+        .pipe($.zip('dist-' + getFormattedDate() + '.zip'))
         .pipe(gulp.dest('.'))
         .pipe($.size({
             title: 'zip',
