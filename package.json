@@ -4,7 +4,7 @@
     "apache-server-configs": "2.14.0",
     "autoprefixer": "6.0.3",
     "babel-core": "5.8.25",
-    "browser-sync": "2.9.8",
+    "browser-sync": "2.9.11",
     "del": "2.0.2",
     "gulp": "3.9.0",
     "gulp-cache": "0.3.0",
