@@ -29,7 +29,7 @@
     "gulp-zip": "3.0.2",
     "jshint-stylish": "2.0.1",
     "lazypipe": "1.0.1",
-    "pre-commit": "1.1.1",
+    "pre-commit": "1.1.2",
     "run-sequence": "1.1.4"
   },
   "engines": {
