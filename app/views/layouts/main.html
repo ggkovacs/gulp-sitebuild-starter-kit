@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
     <title>Gulp sitebuild starter kit - {% block title %}{% endblock %}</title>
-    <!-- build:css css/main.css -->
+    <!-- build:css(.tmp) css/main.css -->
+    <!-- bower:css -->
+    <!-- endinject -->
     <link rel="stylesheet" href="css/main.css">
     {% block after-main-css %}{% endblock %}
     <!-- endbuild -->
@@ -16,11 +18,13 @@
 
     {% block content %}{% endblock %}
 
-    <!-- build:js scripts/vendors.js -->
+    <!-- build:js(app) scripts/vendors.js -->
+    <!-- bower:js -->
+    <!-- endinject -->
     {% block after-vendors-js %}{% endblock %}
     <!-- endbuild -->
 
-    <!-- build:js scripts/main.js -->
+    <!-- build:js(app) scripts/main.js -->
     <script src="scripts/main.js"></script>
     {% block after-main-js %}{% endblock %}
     <!-- endbuild -->

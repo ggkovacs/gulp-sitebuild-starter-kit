@@ -32,8 +32,8 @@ import runSequence from 'run-sequence';
 import del from 'del';
 import browserSync from 'browser-sync';
 import path from 'path';
-import lazypipe from 'lazypipe';
 import autoprefixer from 'autoprefixer';
+import bowerFiles from 'main-bower-files';
 
 const reload = browserSync.reload;
 const $ = gulpLoadPlugins();
@@ -134,47 +134,62 @@ gulp.task('extras', () =>
         }))
 );
 
+// Bower files
+gulp.task('bowerfiles', () =>
+    gulp.src('app/views/layouts/*.html')
+        .pipe($.inject(gulp.src(bowerFiles(), {
+            read: false,
+        }), {
+            name: 'bower',
+            addRootSlash: false,
+            ignorePath: [
+                'app',
+            ],
+            empty: true,
+        }))
+        .pipe(gulp.dest('app/views/layouts'))
+        .pipe($.size({
+            title: 'bowerFiles',
+        }))
+);
+
 // Clean
 gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 // Html
-gulp.task('html', ['template', 'styles'], () => {
-    let assets = $.useref.assets({
-        searchPath:  ['.tmp', 'app', '.'],
-    });
-    let jsCompile = lazypipe()
+gulp.task('html', ['template:build', 'styles'], () =>
+    gulp.src('.tmp/views/*.html')
+        .pipe($.usemin({
+            css: [
+                $.uncss({
+                    html: ['.tmp/views/*.html'],
+                    ignore: [/.js/], // CSS Selectors for UnCSS to ignore
+                }),
+                $.minifyCss(),
+                $.rev(),
+            ],
+            js: [
 
-        // npm install --save-dev gulp-ng-annotate
-        //.pipe($.ngAnnotate)
-        .pipe($.uglify, {preserveComments: 'some'});
-
-    return gulp.src('.tmp/views/*.html')
-        .pipe(assets)
-
-        // Concatenate and minify JavaScript
-        .pipe($.if('*.js', jsCompile()))
-
-        // Remove any unused CSS
-        .pipe($.if('*.css', $.uncss({
-            html: ['.tmp/views/*.html'],
-
-            // CSS Selectors for UnCSS to ignore
-            ignore: [/.js/],
-        })))
-        .pipe($.if('*.css', $.csso()))
-        .pipe($.rev())
-        .pipe(assets.restore())
-        .pipe($.useref())
-        .pipe($.revReplace())
-        .pipe($.if('*.html', $.minifyHtml({
-            conditionals: true,
-            loose: true,
-        })))
+                // $.ngAnnotate() // npm install --save-dev gulp-ng-annotate
+                $.uglify({
+                    preserveComments: 'all',
+                }),
+                $.rev(),
+            ],
+            html: [
+                function() {
+                    return $.minifyHtml({
+                        conditionals: true,
+                        loose: true,
+                    });
+                },
+            ],
+        }))
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'html',
-        }));
-});
+        }))
+);
 
 // Default
 gulp.task('default', ['test:js'], cb => runSequence('clean', ['fonts', 'images', 'extras', 'html'], cb));
@@ -257,10 +272,17 @@ gulp.task('template:toc', () => {
 });
 
 // Template
-gulp.task('template', cb => runSequence('clean:templates', 'template:views', 'template:toc', cb));
+gulp.task('template', cb =>
+    runSequence('clean:templates', 'template:views', 'template:toc', cb)
+);
+
+// Template build
+gulp.task('template:build', cb =>
+    runSequence('clean:templates', 'bowerfiles', 'template:views', 'template:toc', cb)
+);
 
 // Browser sync
-gulp.task('browser-sync', ['template', 'styles'], () => {
+gulp.task('browser-sync', ['template:build', 'styles'], () => {
     browserSync({
         notify: false,
         port: 9000,
@@ -268,7 +290,7 @@ gulp.task('browser-sync', ['template', 'styles'], () => {
         server: {
             baseDir: ['.tmp', 'app', '.tmp/views'],
             routes: {
-                '/bower_components': 'bower_components',
+                '/bower_components': 'app/bower_components',
             },
         },
     });
@@ -303,6 +325,12 @@ gulp.task('serve', ['browser-sync'], () => {
 
     $.saneWatch('app/views/**/*.html', () => {
         gulp.start('template');
+    });
+
+    $.saneWatch('bower.json', {
+        debounce: 500,
+    }, () => {
+        gulp.start('bowerfiles');
     });
 });
 
