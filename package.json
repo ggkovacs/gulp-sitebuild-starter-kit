@@ -16,7 +16,7 @@
     "gulp-jshint": "2.0.0",
     "gulp-load-plugins": "1.1.0",
     "gulp-minify-css": "1.2.2",
-    "gulp-minify-html": "1.0.4",
+    "gulp-minify-html": "1.0.5",
     "gulp-postcss": "6.0.1",
     "gulp-rev": "6.0.1",
     "gulp-sane-watch": "1.0.4",
