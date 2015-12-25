@@ -165,7 +165,7 @@ gulp.task('html', ['template:build', 'styles'], () =>
                     html: ['.tmp/views/*.html'],
                     ignore: [/.js/], // CSS Selectors for UnCSS to ignore
                 }),
-                $.minifyCss(),
+                $.cssnano(),
                 $.rev(),
             ],
             js: [
@@ -178,9 +178,8 @@ gulp.task('html', ['template:build', 'styles'], () =>
             ],
             html: [
                 function() {
-                    return $.minifyHtml({
-                        conditionals: true,
-                        loose: true,
+                    return $.htmlmin({
+                        collapseWhitespace: true
                     });
                 },
             ],
