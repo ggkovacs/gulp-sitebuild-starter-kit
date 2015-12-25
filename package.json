@@ -20,7 +20,7 @@
     "gulp-postcss": "6.0.1",
     "gulp-rev": "6.0.1",
     "gulp-sane-watch": "1.0.4",
-    "gulp-sass": "2.1.0",
+    "gulp-sass": "2.1.1",
     "gulp-size": "2.0.0",
     "gulp-sourcemaps": "1.6.0",
     "gulp-swig": "0.8.0",
