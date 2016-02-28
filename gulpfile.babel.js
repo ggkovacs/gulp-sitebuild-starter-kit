@@ -1,7 +1,7 @@
 /**
  *
  * Gulp sitebuild starter kit
- * Copyright 2015 Gergely Kovács (gg.kovacs@gmail.com)
+ * Copyright 2016 Gergely Kovács (gg.kovacs@gmail.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
  *
  */
 
-/* jshint node: true */
 'use strict';
 
 import gulp from 'gulp';
@@ -48,25 +47,19 @@ const AUTOPREFIXER_BROWSERS = [
     'ie_mob >= 10',
     'ios >= 7',
     'android >= 4.4',
-    'bb >= 10',
+    'bb >= 10'
 ];
 
-// JSHint
-gulp.task('jshint', () =>
+// ESLint
+gulp.task('eslint', () =>
     gulp.src('app/scripts/**/*.js')
-        .pipe($.jshint())
-        .pipe($.jshint.reporter('jshint-stylish'))
-        .pipe($.jshint.reporter('fail'))
+        .pipe($.eslint())
+        .pipe($.eslint.format())
+        .pipe($.eslint.failAfterError())
 );
 
-// JSCS
-gulp.task('jscs', () =>
-    gulp.src('app/scripts/**/*.js')
-        .pipe($.jscs('.jscsrc'))
-);
-
-// Test javascript (jshint, jscs)
-gulp.task('test:js', ['jshint', 'jscs']);
+// Test javascript (eslint)
+gulp.task('test:js', ['eslint']);
 
 // Pre commit task
 gulp.task('commit', ['test:js']);
@@ -75,7 +68,7 @@ gulp.task('commit', ['test:js']);
 gulp.task('styles', () => {
     let processors = [
         autoprefixer({
-            browsers: AUTOPREFIXER_BROWSERS,
+            browsers: AUTOPREFIXER_BROWSERS
         }),
     ];
 
@@ -84,16 +77,16 @@ gulp.task('styles', () => {
         .pipe($.sass({
             indentedSyntax: true,
             outputStyle: 'nested',
-            precision: 10,
+            precision: 10
         }).on('error', $.sass.logError))
         .pipe($.postcss(processors))
         .pipe($.sourcemaps.write())
         .pipe(gulp.dest('.tmp/css'))
         .pipe($.if(browserSync.active, reload({
-            stream: true,
+            stream: true
         })))
         .pipe($.size({
-            title: 'styles',
+            title: 'styles'
         }));
 });
 
@@ -102,11 +95,11 @@ gulp.task('images', () =>
     gulp.src('app/images/**/*')
         .pipe($.cache($.imagemin({
             progressive: true,
-            interlaced: true,
+            interlaced: true
         })))
         .pipe(gulp.dest('dist/images'))
         .pipe($.size({
-            title: 'images',
+            title: 'images'
         }))
 );
 
@@ -115,7 +108,7 @@ gulp.task('fonts', () =>
     gulp.src('app/fonts/**/*.{eot,svg,ttf,woff,woff2}')
         .pipe(gulp.dest('dist/fonts'))
         .pipe($.size({
-            title: 'fonts',
+            title: 'fonts'
         }))
 );
 
@@ -124,13 +117,13 @@ gulp.task('extras', () =>
     gulp.src([
         'app/*.*',
         '!app/*.html',
-        'node_modules/apache-server-configs/dist/.htaccess',
+        'node_modules/apache-server-configs/dist/.htaccess'
     ], {
-        dot: true,
+        dot: true
     })
         .pipe(gulp.dest('dist'))
         .pipe($.size({
-            title: 'extras',
+            title: 'extras'
         }))
 );
 
@@ -138,18 +131,18 @@ gulp.task('extras', () =>
 gulp.task('bowerfiles', () =>
     gulp.src('app/views/layouts/*.html')
         .pipe($.inject(gulp.src(bowerFiles(), {
-            read: false,
+            read: false
         }), {
             name: 'bower',
             addRootSlash: false,
             ignorePath: [
-                'app',
+                'app'
             ],
-            empty: true,
+            empty: true
         }))
         .pipe(gulp.dest('app/views/layouts'))
         .pipe($.size({
-            title: 'bowerFiles',
+            title: 'bowerFiles'
         }))
 );
 
@@ -163,30 +156,29 @@ gulp.task('html', ['template:build', 'styles'], () =>
             css: [
                 $.uncss({
                     html: ['.tmp/views/*.html'],
-                    ignore: [/.js/], // CSS Selectors for UnCSS to ignore
+                    ignore: [/.js/] // CSS Selectors for UnCSS to ignore
                 }),
                 $.cssnano(),
-                $.rev(),
+                $.rev()
             ],
             js: [
-
                 // $.ngAnnotate() // npm install --save-dev gulp-ng-annotate
                 $.uglify({
-                    preserveComments: 'all',
+                    preserveComments: 'all'
                 }),
-                $.rev(),
+                $.rev()
             ],
             html: [
                 function() {
                     return $.htmlmin({
                         collapseWhitespace: true
                     });
-                },
-            ],
+                }
+            ]
         }))
         .pipe(gulp.dest('dist'))
         .pipe($.size({
-            title: 'html',
+            title: 'html'
         }))
 );
 
@@ -215,7 +207,7 @@ gulp.task('zip', ['default'], () => {
         .pipe($.zip('dist-' + getFormattedDate() + '.zip'))
         .pipe(gulp.dest('.'))
         .pipe($.size({
-            title: 'zip',
+            title: 'zip'
         }));
 });
 
@@ -227,15 +219,15 @@ gulp.task('template:views', () =>
     gulp.src('app/views/*.html')
         .pipe($.swig({
             defaults: {
-                cache: false,
+                cache: false
             },
         }))
         .pipe(gulp.dest('.tmp/views'))
         .pipe($.if(browserSync.active, reload({
-            stream: true,
+            stream: true
         })))
         .pipe($.size({
-            title: 'template:views',
+            title: 'template:views'
         }))
 );
 
@@ -255,18 +247,18 @@ gulp.task('template:toc', () => {
     return gulp.src('app/views/.toc/index.html')
         .pipe($.swig({
             defaults: {
-                cache: false,
+                cache: false
             },
             data: {
-                htmlList: htmlList,
+                htmlList: htmlList
             },
         }))
         .pipe(gulp.dest('.tmp/views'))
         .pipe($.if(browserSync.active, reload({
-            stream: true,
+            stream: true
         })))
         .pipe($.size({
-            title: 'template:toc',
+            title: 'template:toc'
         }));
 });
 
@@ -289,20 +281,18 @@ gulp.task('browser-sync', ['template:build', 'styles'], () => {
         server: {
             baseDir: ['.tmp', 'app', '.tmp/views'],
             routes: {
-                '/bower_components': 'app/bower_components',
-            },
-        },
+                '/bower_components': 'app/bower_components'
+            }
+        }
     });
 });
 
 // PageSpeed Insights
 // npm install --save-dev psi
 gulp.task('psi', cb =>
-
     // Update the below URL to the public URL of your site
     require('psi').output('example.com', {
-        strategy: 'mobile',
-
+        strategy: 'mobile'
         // By default we use the PageSpeed Insights free (no API key) tier.
         // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
         // key: 'YOUR_API_KEY'
@@ -313,7 +303,7 @@ gulp.task('psi', cb =>
 gulp.task('serve', ['browser-sync'], () => {
     $.saneWatch([
         'app/scripts/**/*.js',
-        'app/images/**/*',
+        'app/images/**/*'
     ], (filename, filepath) => {
         reload(path.join(filepath, filename));
     });
@@ -327,7 +317,7 @@ gulp.task('serve', ['browser-sync'], () => {
     });
 
     $.saneWatch('bower.json', {
-        debounce: 500,
+        debounce: 500
     }, () => {
         gulp.start('bowerfiles');
     });

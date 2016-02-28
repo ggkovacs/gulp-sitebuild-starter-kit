@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![devDependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on gulp.js
 
-Version: **2.1.2**
+Version: **2.1.3**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the app directory.
@@ -64,7 +64,7 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
 
 ## License
-MIT © 2015 Gergely Kovács (gg.kovacs@gmail.com)
+MIT © 2016 Gergely Kovács (gg.kovacs@gmail.com)
 
 [daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
 [daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies

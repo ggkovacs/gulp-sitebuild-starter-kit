@@ -1,38 +1,37 @@
 {
   "private": true,
   "devDependencies": {
-    "apache-server-configs": "2.14.0",
-    "autoprefixer": "6.2.1",
-    "babel-core": "6.3.26",
-    "babel-preset-es2015": "6.3.13",
-    "browser-sync": "2.10.1",
-    "del": "2.2.0",
-    "gulp": "3.9.0",
-    "gulp-cache": "0.4.1",
+    "apache-server-configs": "^2.14.0",
+    "autoprefixer": "^6.3.3",
+    "babel-core": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0",
+    "browser-sync": "^2.11.1",
+    "del": "^2.2.0",
+    "eslint": "^2.2.0",
+    "eslint-config-mito": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-cache": "^0.4.2",
     "gulp-cssnano": "^2.0.0",
+    "gulp-eslint": "^2.0.0",
     "gulp-htmlmin": "^1.3.0",
-    "gulp-if": "2.0.0",
-    "gulp-imagemin": "2.4.0",
+    "gulp-if": "^2.0.0",
+    "gulp-imagemin": "^2.4.0",
     "gulp-inject": "^3.0.0",
-    "gulp-jscs": "3.0.2",
-    "gulp-jshint": "2.0.0",
-    "gulp-load-plugins": "1.1.0",
-    "gulp-postcss": "6.0.1",
-    "gulp-rev": "6.0.1",
-    "gulp-sane-watch": "1.0.5",
-    "gulp-sass": "2.1.1",
-    "gulp-size": "2.0.0",
-    "gulp-sourcemaps": "1.6.0",
-    "gulp-swig": "0.8.0",
-    "gulp-uglify": "1.5.1",
-    "gulp-uncss": "1.0.4",
-    "gulp-usemin": "0.3.16",
-    "gulp-zip": "3.0.2",
-    "jshint": "2.8.0",
-    "jshint-stylish": "2.1.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-postcss": "^6.1.0",
+    "gulp-rev": "^7.0.0",
+    "gulp-sane-watch": "^1.1.1",
+    "gulp-sass": "^2.2.0",
+    "gulp-size": "^2.0.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-swig": "^0.8.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-uncss": "^1.0.4",
+    "gulp-usemin": "^0.3.21",
+    "gulp-zip": "^3.2.0",
     "main-bower-files": "^2.11.0",
-    "pre-commit": "1.1.2",
-    "run-sequence": "1.1.5"
+    "pre-commit": "^1.1.2",
+    "run-sequence": "^1.1.5"
   },
   "engines": {
     "node": ">=0.12.0"
@@ -42,5 +41,8 @@
   },
   "pre-commit": [
     "test"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": "mito/legacy"
+  }
 }
