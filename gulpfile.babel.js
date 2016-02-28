@@ -162,7 +162,6 @@ gulp.task('html', ['template:build', 'styles'], () =>
                 $.rev()
             ],
             js: [
-                // $.ngAnnotate() // npm install --save-dev gulp-ng-annotate
                 $.uglify({
                     preserveComments: 'all'
                 }),
@@ -171,7 +170,26 @@ gulp.task('html', ['template:build', 'styles'], () =>
             html: [
                 function() {
                     return $.htmlmin({
-                        collapseWhitespace: true
+                        removeComments: true,
+                        removeCommentsFromCDATA: true,
+                        removeCDATASectionsFromCDATA: true,
+                        collapseWhitespace: true,
+                        conservativeCollapse: true,
+                        collapseInlineTagWhitespace: true,
+                        preserveLineBreaks: true,
+                        collapseBooleanAttributes: true,
+                        removeTagWhitespace: true,
+                        removeAttributeQuotes: true,
+                        removeRedundantAttributes: true,
+                        preventAttributesEscaping: true,
+                        useShortDoctype: true,
+                        removeEmptyAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true,
+                        caseSensitive: true,
+                        minifyJS: true,
+                        minifyCSS: true,
+                        minifyURLs: true
                     });
                 }
             ]
