@@ -8,7 +8,7 @@
     "browser-sync": "^2.11.1",
     "del": "^2.2.0",
     "eslint": "^2.2.0",
-    "eslint-config-mito": "^2.0.1",
+    "eslint-config-mito": "^2.0.2",
     "gulp": "^3.9.1",
     "gulp-cache": "^0.4.2",
     "gulp-cssnano": "^2.0.0",
