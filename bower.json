@@ -1,6 +1,4 @@
 {
   "name": "GulpSitebuildStarterKit",
-  "dependencies": {
-    "jquery": "^2.2.1"
-  }
+  "dependencies": {}
 }

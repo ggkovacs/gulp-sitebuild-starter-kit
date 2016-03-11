@@ -90,6 +90,14 @@ const CONFIGS = {
     }
 }
 
+function createFontsDir() {
+    try {
+        fs.accessSync(CONFIGS.FONTS.TMP_PATH, fs.F_OK);
+    } catch (e) {
+        fs.mkdirSync(CONFIGS.FONTS.TMP_PATH);
+    }
+}
+
 // Lint
 gulp.task('lint', () =>
     gulp.src('app/scripts/**/*.js')
@@ -211,20 +219,20 @@ gulp.task('html', ['template:build', 'styles', 'scripts'], () =>
     gulp.src('.tmp/views/*.html')
         .pipe($.usemin({
             css: [
-                $.uncss({
+                () => $.uncss({
                     html: ['.tmp/views/*.html'],
                     ignore: CONFIGS.UNCSS
                 }),
-                $.cssnano(),
-                $.rev()
+                () => $.cssnano(),
+                () => $.rev()
             ],
             js: [
-                $.uglify(CONFIGS.UGLIFY),
-                $.rev()
+                () => $.uglify(CONFIGS.UGLIFY),
+                () => $.rev()
             ],
-            html: [function() {
-                return $.htmlmin(CONFIGS.HTMLMIN);
-            }]
+            html: [
+                () => $.htmlmin(CONFIGS.HTMLMIN)
+            ]
         }))
         .pipe(gulp.dest('dist'))
         .pipe($.size({
@@ -297,7 +305,7 @@ gulp.task('template:toc', () => {
         }
     }
 
-    return gulp.src('app/views/.toc/index.swig')
+    return gulp.src('app/views/.toc/index.{swig,html}')
         .pipe($.swig({
             defaults: {
                 cache: false
@@ -342,11 +350,7 @@ gulp.task('psi', cb =>
 
 // Serve
 gulp.task('serve', ['template:build', 'styles', 'scripts', 'fonts'], () => {
-    try {
-        fs.accessSync(CONFIGS.FONTS.TMP_PATH, fs.F_OK);
-    } catch (e) {
-        fs.mkdirSync(CONFIGS.FONTS.TMP_PATH);
-    }
+    createFontsDir();
 
     browserSync({
         notify: false,

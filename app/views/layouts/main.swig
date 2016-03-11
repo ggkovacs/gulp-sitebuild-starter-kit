@@ -18,9 +18,8 @@
 
     {% block content %}{% endblock %}
 
-    <!-- build:js(app) scripts/vendors.js -->
+    <!-- build:js(.) scripts/vendors.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <!-- endinject -->
     {% block after-vendors-js %}{% endblock %}
     <!-- endbuild -->
