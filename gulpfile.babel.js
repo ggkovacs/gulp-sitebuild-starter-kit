@@ -39,14 +39,14 @@ const reload = browserSync.reload;
 const $ = gulpLoadPlugins();
 
 // Configs
-const CONFIGS = {
+const configs = {
     // Fonts
-    FONTS: {
-        EXTS: '{eot,svg,ttf,woff,woff2}',
-        TMP_PATH: './.tmp/fonts'
+    fonts: {
+        exts: '{eot,svg,ttf,woff,woff2}',
+        tmpPath: './.tmp/fonts'
     },
     // Autoprefixer
-    AUTOPREFIXER_BROWSERS: [
+    autoprefixerBrowsers: [
         'ie >= 9',
         'ff >= 30',
         'chrome >= 34',
@@ -58,15 +58,15 @@ const CONFIGS = {
         'bb >= 10'
     ],
     // Uglify
-    UGLIFY: {
-        preserveComments: 'all'
+    uglify: {
+        preserveComments: false
     },
     // UnCSS
-    UNCSS: {
+    uncss: {
         ignore: [/.js/] // CSS Selectors for UnCSS to ignore
     },
     // HTMLMin
-    HTMLMIN: {
+    htmlmin: {
         removeComments: true,
         removeCommentsFromCDATA: true,
         removeCDATASectionsFromCDATA: true,
@@ -88,13 +88,13 @@ const CONFIGS = {
         minifyCSS: true,
         minifyURLs: true
     }
-}
+};
 
 function createFontsDir() {
     try {
-        fs.accessSync(CONFIGS.FONTS.TMP_PATH, fs.F_OK);
+        fs.accessSync(configs.fonts.tmpPath, fs.F_OK);
     } catch (e) {
-        fs.mkdirSync(CONFIGS.FONTS.TMP_PATH);
+        fs.mkdirSync(configs.fonts.tmpPath);
     }
 }
 
@@ -111,10 +111,10 @@ gulp.task('commit', ['lint']);
 
 // Styles
 gulp.task('styles', () => {
-    let processors = [
+    const processors = [
         autoprefixer({
-            browsers: CONFIGS.AUTOPREFIXER_BROWSERS
-        }),
+            browsers: configs.autoprefixerBrowsers
+        })
     ];
 
     gulp.src('app/styles/**/*.sass')
@@ -168,8 +168,8 @@ gulp.task('images', () =>
 
 // Fonts
 gulp.task('fonts', () =>
-    gulp.src(bowerFiles(`**/*.${CONFIGS.FONTS.EXTS}`, function(err) {})
-        .concat(`app/fonts/**/*.${CONFIGS.FONTS.EXTS}`))
+    gulp.src(bowerFiles(`**/*.${configs.fonts.exts}`, function() {})
+        .concat(`app/fonts/**/*.${configs.fonts.exts}`))
         .pipe(gulp.dest('.tmp/fonts'))
         .pipe(gulp.dest('dist/fonts'))
         .pipe($.size({
@@ -195,7 +195,7 @@ gulp.task('extras', () =>
 // Bower files
 gulp.task('bowerfiles', () =>
     gulp.src('app/views/layouts/*.{html,swig}')
-        .pipe($.inject(gulp.src(bowerFiles('**/*', function(err) {}), {
+        .pipe($.inject(gulp.src(bowerFiles('**/*', function() {}), {
             read: false
         }), {
             name: 'bower',
@@ -221,17 +221,17 @@ gulp.task('html', ['template:build', 'styles', 'scripts'], () =>
             css: [
                 () => $.uncss({
                     html: ['.tmp/views/*.html'],
-                    ignore: CONFIGS.UNCSS
+                    ignore: configs.uncss
                 }),
                 () => $.cssnano(),
                 () => $.rev()
             ],
             js: [
-                () => $.uglify(CONFIGS.UGLIFY),
+                () => $.uglify(configs.uglify),
                 () => $.rev()
             ],
             html: [
-                () => $.htmlmin(CONFIGS.HTMLMIN)
+                () => $.htmlmin(configs.htmlmin)
             ]
         }))
         .pipe(gulp.dest('dist'))
@@ -246,19 +246,20 @@ gulp.task('default', ['lint'], cb => runSequence('clean', ['fonts', 'images', 'e
 // Zip
 gulp.task('zip', ['default'], () => {
     function addZero(value) {
-        value = value.toString();
-        return value[1] ? value : '0' + value;
+        const rs = value.toString();
+
+        return rs[1] ? rs : '0' + rs;
     }
 
     function getFormattedDate() {
-        let date = new Date();
-        let year = date.getFullYear().toString();
-        let month = addZero((date.getMonth() + 1));
-        let day = addZero(date.getDate());
-        let hour = addZero(date.getHours());
-        let minute = addZero(date.getMinutes());
+        const date = new Date();
+        const year = date.getFullYear().toString();
+        const month = addZero((date.getMonth() + 1));
+        const day = addZero(date.getDate());
+        const hour = addZero(date.getHours());
+        const minute = addZero(date.getMinutes());
 
-        return year + month + day  + hour + minute;
+        return year + month + day + hour + minute;
     }
 
     return gulp.src(['dist/**/*.*', '!dist/.git'])
@@ -278,10 +279,10 @@ gulp.task('template:views', () =>
         .pipe($.swig({
             defaults: {
                 cache: false
-            },
+            }
         }))
-        .pipe($.rename((path) => {
-            path.extname = '.html';
+        .pipe($.rename((p) => {
+            p.extname = '.html';
         }))
         .pipe(gulp.dest('.tmp/views'))
         .pipe($.if(browserSync.active, reload({
@@ -294,10 +295,8 @@ gulp.task('template:views', () =>
 
 // Table of contents
 gulp.task('template:toc', () => {
-    let fs = require('fs');
-    let path = require('path');
-    let list = fs.readdirSync('.tmp/views');
-    let htmlList = [];
+    const list = fs.readdirSync('.tmp/views');
+    const htmlList = [];
 
     for (let i = 0, l = list.length; i < l; i++) {
         if (path.extname(list[i]) === '.html') {
@@ -312,10 +311,10 @@ gulp.task('template:toc', () => {
             },
             data: {
                 htmlList: htmlList
-            },
+            }
         }))
-        .pipe($.rename((path) => {
-            path.extname = '.html';
+        .pipe($.rename((p) => {
+            p.extname = '.html';
         }))
         .pipe(gulp.dest('.tmp/views'))
         .pipe($.if(browserSync.active, reload({
@@ -367,7 +366,7 @@ gulp.task('serve', ['template:build', 'styles', 'scripts', 'fonts'], () => {
 
     $.saneWatch([
         'app/images/**/*',
-        `.tmp/fonts/**/*.${CONFIGS.FONTS.EXTS}`
+        `.tmp/fonts/**/*.${configs.fonts.exts}`
     ], (filename, filepath) => {
         reload(path.join(filepath, filename));
     });
@@ -376,7 +375,7 @@ gulp.task('serve', ['template:build', 'styles', 'scripts', 'fonts'], () => {
         gulp.start('scripts');
     });
 
-    $.saneWatch(`app/fonts/**/*.${CONFIGS.FONTS.EXTS}`, () => {
+    $.saneWatch(`app/fonts/**/*.${configs.fonts.exts}`, () => {
         gulp.start('fonts');
     });
 
