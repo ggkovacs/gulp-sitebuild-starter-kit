@@ -5,7 +5,8 @@ module.exports = function(plop) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
 
-    plop.setGenerator('Create a page', {
+    plop.setGenerator('page', {
+        description: 'Create a page',
         prompts: [{
             type: 'input',
             name: 'pageName',
@@ -30,7 +31,8 @@ module.exports = function(plop) {
         }]
     });
 
-    plop.setGenerator('Create a component', {
+    plop.setGenerator('component', {
+        description: 'Create a (sass) component',
         prompts: [{
             type: 'input',
             name: 'componentName',

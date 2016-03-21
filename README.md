@@ -76,6 +76,13 @@ Details:
 * we add the project root to Sass load path in order for `@import "bower_components/..."` directives to work
 * we strip all the `../`s from the beginning of `bower_components` paths
 
+## Plop
+
+[Plop](https://github.com/amwmedia/plop) is a micro-generator framework.
+
+* `plop page` - create a page ([template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/view.hbs))
+* `plop component` - create a sass component ([template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/component.hbs))
+
 ## Inspiration
 
 Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
