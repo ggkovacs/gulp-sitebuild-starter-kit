@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![devDependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on gulp.js
 
-Version: **2.2.4**
+Version: **2.2.5**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the app directory.
