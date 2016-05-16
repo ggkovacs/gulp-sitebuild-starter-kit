@@ -36,7 +36,7 @@
     "main-bower-files": "^2.13.0",
     "plop": "^1.5.0",
     "pre-commit": "^1.1.2",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.2.0"
   },
   "engines": {
     "node": ">=0.12.0"
