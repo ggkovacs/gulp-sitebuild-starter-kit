@@ -12,7 +12,7 @@
     "eslint-config-mito": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "gulp-cache": "^0.4.4",
+    "gulp-cache": "^0.4.5",
     "gulp-cssnano": "^2.1.2",
     "gulp-eslint": "^2.0.0",
     "gulp-htmlmin": "^2.0.0",
