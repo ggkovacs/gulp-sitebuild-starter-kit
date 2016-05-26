@@ -8,7 +8,7 @@
     "babel-register": "^6.7.2",
     "browser-sync": "^2.12.5",
     "del": "^2.2.0",
-    "eslint": "^2.9.0",
+    "eslint": "^2.10.0",
     "eslint-config-mito": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
