@@ -1,7 +1,7 @@
-# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![devDependency Status][daviddm-image]][daviddm-url]
+# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Dependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on gulp.js
 
-Version: **2.2.7**
+Version: **2.3.0**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the app directory.
@@ -81,7 +81,7 @@ Details:
 [Plop](https://github.com/amwmedia/plop) is a micro-generator framework.
 
 * `plop page` - create a page ([template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/view.hbs))
-* `plop component` - create a sass component ([template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/component.hbs))
+* `plop component` - create a sass/scss component ([sass template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/component.sass.hbs)/[scss template](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/blob/master/templates/component.scss.hbs))
 
 ## Inspiration
 
@@ -90,5 +90,5 @@ Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boile
 ## License
 MIT © 2016 Gergely Kovács (gg.kovacs@gmail.com)
 
-[daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
-[daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies
+[daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit
