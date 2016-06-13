@@ -32,7 +32,7 @@
     <ul>
         {% for item in htmlList %}
             <li>
-                <a href="{{item}}" target="_blank">{{item}}</a>
+                <a href="{{{item}}}" target="_blank">{{{item}}}</a>
             </li>
         {% endfor %}
     </ul>

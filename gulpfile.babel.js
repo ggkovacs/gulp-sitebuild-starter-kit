@@ -40,12 +40,12 @@ const $ = gulpLoadPlugins();
 
 // Configs
 const configs = {
-    // Fonts
+    // Fonts options
     fonts: {
         exts: '{eot,svg,ttf,woff,woff2}',
         tmpPath: './.tmp/fonts'
     },
-    // Autoprefixer
+    // Autoprefixer browsers
     autoprefixerBrowsers: [
         'ie >= 9',
         'ff >= 30',
@@ -57,15 +57,15 @@ const configs = {
         'android >= 4.4',
         'bb >= 10'
     ],
-    // Uglify
+    // Uglify options
     uglify: {
         preserveComments: false
     },
-    // UnCSS
+    // UnCSS options
     uncss: {
         ignore: [/.js/] // CSS Selectors for UnCSS to ignore
     },
-    // HTMLMin
+    // HTMLMin options
     htmlmin: {
         removeComments: true,
         removeCommentsFromCDATA: true,
@@ -87,6 +87,13 @@ const configs = {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true
+    },
+    // Swig options
+    swigOptions: {
+        defaults: {
+            cache: false,
+            varControls: ['{{{', '}}}']
+        }
     }
 };
 
@@ -140,6 +147,7 @@ gulp.task('styles', () => {
 // Scripts
 gulp.task('scripts', () =>
     gulp.src('app/scripts/**/*.js')
+        .pipe($.changed('.tmp/scripts'))
         .pipe($.plumber())
         .pipe($.sourcemaps.init())
         .pipe($.babel())
@@ -168,7 +176,7 @@ gulp.task('images', () =>
 
 // Fonts
 gulp.task('fonts', () =>
-    gulp.src(bowerFiles(`**/*.${configs.fonts.exts}`, function() {})
+    gulp.src(bowerFiles(`**/*.${configs.fonts.exts}`, () => {})
         .concat(`app/fonts/**/*.${configs.fonts.exts}`))
         .pipe(gulp.dest('.tmp/fonts'))
         .pipe(gulp.dest('dist/fonts'))
@@ -195,7 +203,7 @@ gulp.task('extras', () =>
 // Bower files
 gulp.task('bowerfiles', () =>
     gulp.src('app/views/layouts/*.{html,swig}')
-        .pipe($.inject(gulp.src(bowerFiles('**/*', function() {}), {
+        .pipe($.inject(gulp.src(bowerFiles('**/*', () => {}), {
             read: false
         }), {
             name: 'bower',
@@ -248,7 +256,7 @@ gulp.task('zip', ['default'], () => {
     function addZero(value) {
         const rs = value.toString();
 
-        return rs[1] ? rs : '0' + rs;
+        return rs[1] ? rs : `0${rs}`;
     }
 
     function getFormattedDate() {
@@ -263,7 +271,7 @@ gulp.task('zip', ['default'], () => {
     }
 
     return gulp.src(['dist/**/*.*', '!dist/.git'])
-        .pipe($.zip('dist-' + getFormattedDate() + '.zip'))
+        .pipe($.zip(`dist-${getFormattedDate()}.zip`))
         .pipe(gulp.dest('.'))
         .pipe($.size({
             title: 'zip'
@@ -276,11 +284,7 @@ gulp.task('clean:templates', () => del(['.tmp/views/*.html']));
 // Template views
 gulp.task('template:views', () =>
     gulp.src('app/views/*.{html,swig}')
-        .pipe($.swig({
-            defaults: {
-                cache: false
-            }
-        }))
+        .pipe($.swig(configs.swigOptions))
         .pipe($.rename((p) => {
             p.extname = '.html';
         }))
@@ -305,14 +309,10 @@ gulp.task('template:toc', () => {
     }
 
     return gulp.src('app/views/.toc/index.{swig,html}')
-        .pipe($.swig({
-            defaults: {
-                cache: false
-            },
-            data: {
-                htmlList: htmlList
-            }
+        .pipe($.data({
+            htmlList
         }))
+        .pipe($.swig(configs.swigOptions))
         .pipe($.rename((p) => {
             p.extname = '.html';
         }))
@@ -337,15 +337,15 @@ gulp.task('template:build', cb =>
 
 // PageSpeed Insights
 // npm install --save-dev psi
-gulp.task('psi', cb =>
-    // Update the below URL to the public URL of your site
-    require('psi').output('example.com', {
-        strategy: 'mobile'
-        // By default we use the PageSpeed Insights free (no API key) tier.
-        // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
-        // key: 'YOUR_API_KEY'
-    }, cb)
-);
+// gulp.task('psi', cb =>
+//     // Update the below URL to the public URL of your site
+//     require('psi').output('example.com', {
+//         strategy: 'mobile'
+//         // By default we use the PageSpeed Insights free (no API key) tier.
+//         // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
+//         // key: 'YOUR_API_KEY'
+//     }, cb)
+// );
 
 // Serve
 gulp.task('serve', ['template:build', 'styles', 'scripts', 'fonts'], () => {
