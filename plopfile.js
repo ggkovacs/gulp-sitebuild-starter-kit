@@ -49,11 +49,32 @@ module.exports = function(plop) {
             name: 'directoryName',
             message: 'What is directory name?',
             default: 'components'
+        }, {
+            type: 'input',
+            name: 'ext',
+            message: 'What is extensions?',
+            default: 'sass',
+            validate: function(value) {
+                if (value === 'sass' || value === 'scss') {
+                    return true;
+                }
+
+                return 'extension possible sass or scss';
+            }
         }],
-        actions: [{
-            type: 'add',
-            path: 'app/styles/{{directoryName}}/_{{dashCase componentName}}.sass',
-            templateFile: 'templates/component.hbs'
-        }]
+        actions: function(data) {
+            var actions = [{
+                type: 'add',
+                path: 'app/styles/{{directoryName}}/_{{dashCase componentName}}.{{lowerCase ext}}'
+            }];
+
+            if (data.ext === 'sass') {
+                actions[0].templateFile = 'templates/component.sass.hbs';
+            } else if (data.ext === 'scss') {
+                actions[0].templateFile = 'templates/component.scss.hbs';
+            }
+
+            return actions;
+        }
     });
 };

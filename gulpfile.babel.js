@@ -124,7 +124,7 @@ gulp.task('styles', () => {
         })
     ];
 
-    gulp.src('app/styles/**/*.sass')
+    gulp.src('app/styles/**/*.s+(a|c)ss')
         .pipe($.plumber())
         .pipe($.sourcemaps.init())
         .pipe($.sass({
@@ -255,7 +255,6 @@ gulp.task('default', ['lint'], cb => runSequence('clean', ['fonts', 'images', 'e
 gulp.task('zip', ['default'], () => {
     function addZero(value) {
         const rs = value.toString();
-
         return rs[1] ? rs : `0${rs}`;
     }
 
@@ -379,7 +378,7 @@ gulp.task('serve', ['template:build', 'styles', 'scripts', 'fonts'], () => {
         gulp.start('fonts');
     });
 
-    $.saneWatch('app/styles/**/*.sass', () => {
+    $.saneWatch('app/styles/**/*.s+(a|c)ss', () => {
         gulp.start('styles');
     });
 
