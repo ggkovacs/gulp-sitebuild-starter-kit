@@ -27,7 +27,7 @@
     "gulp-postcss": "^6.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.0.0",
-    "gulp-sane-watch": "^1.1.3",
+    "gulp-sane-watch": "^2.0.0",
     "gulp-sass": "^2.3.1",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
