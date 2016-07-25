@@ -33,7 +33,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-swig": "^0.8.0",
     "gulp-uglify": "^1.5.4",
-    "gulp-uncss": "^1.0.5",
+    "gulp-uncss": "^1.0.6",
     "gulp-usemin": "^0.3.23",
     "gulp-zip": "^3.2.0",
     "main-bower-files": "^2.13.1",
