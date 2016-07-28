@@ -9,7 +9,7 @@
     "browser-sync": "^2.13.0",
     "del": "^2.2.1",
     "eslint": "^3.1.1",
-    "eslint-config-mito": "^5.0.0",
+    "eslint-config-mito": "^6.0.0",
     "eslint-plugin-import": "^1.11.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
