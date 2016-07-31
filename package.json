@@ -6,7 +6,7 @@
     "babel-core": "^6.10.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-register": "^6.11.5",
-    "browser-sync": "^2.13.0",
+    "browser-sync": "^2.14.0",
     "del": "^2.2.1",
     "eslint": "^3.1.1",
     "eslint-config-mito": "^5.0.0",
