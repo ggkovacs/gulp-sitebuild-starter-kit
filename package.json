@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "apache-server-configs": "^2.14.0",
-    "autoprefixer": "^6.4.0",
+    "autoprefixer": "^6.4.1",
     "babel-core": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-register": "^6.14.0",
