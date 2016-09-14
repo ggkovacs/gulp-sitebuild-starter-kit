@@ -10,7 +10,7 @@
     "del": "^2.2.2",
     "eslint": "^3.4.0",
     "eslint-config-mito": "^6.0.0",
-    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-import": "^1.15.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.5",
