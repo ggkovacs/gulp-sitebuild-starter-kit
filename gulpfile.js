@@ -118,6 +118,14 @@ function resetPages(done) {
   done();
 }
 
+function copy() {
+  return gulp.src([
+    'node_modules/apache-server-configs/dist/.htaccess'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('build'));
+}
+
 function generateTableOfContent(files) {
   fs.writeFileSync('.tmp/__toc.html', `
     <!DOCTYPE html>
@@ -192,5 +200,5 @@ function watch() {
     .on('change', reload);
 }
 
-gulp.task('compile', gulp.series(clean, gulp.parallel(styles, images, fonts, pages)));
+gulp.task('compile', gulp.series(clean, gulp.parallel(styles, images, fonts, pages, copy)));
 gulp.task('watch', gulp.series(clean, gulp.parallel(styles, pages), server, watch));
