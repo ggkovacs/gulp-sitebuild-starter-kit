@@ -60,11 +60,7 @@ function clean(done) {
 function styles() {
   return gulp.src('src/assets/styles/main.s+(a|c)ss')
     .pipe($.if(!PRODUCTION, $.sourcemaps.init()))
-    .pipe($.sass({
-      includePaths: [
-        'node_modules/normalize-scss/sass'
-      ]
-    }).on('error', $.sass.logError))
+    .pipe($.sass().on('error', $.sass.logError))
     .pipe($.postcss(processors))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe($.if(PRODUCTION, $.cleanCss()))
@@ -94,7 +90,8 @@ function pages() {
       root: 'src/pages',
       layouts: 'src/layouts',
       partials: 'src/partials',
-      helpers: 'src/helpers'
+      helpers: 'src/helpers',
+      data: 'src/data'
     }))
     .pipe($.if(PRODUCTION, $.htmlmin({
       removeComments: true,
@@ -165,7 +162,6 @@ function server(done) {
   } else if (filesLen > 1) {
     generateTableOfContent(files);
     index = '__toc.html';
-    reload(index);
   }
 
   bs.init({
