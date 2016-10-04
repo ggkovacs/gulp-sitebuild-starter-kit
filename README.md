@@ -19,7 +19,7 @@ Please see our [gulpfile](gulpfile.babel.js) for up to date information on what 
 * CSS [Autoprefixing](https://github.com/postcss/autoprefixer)
 * Built-in preview server with [BrowserSync](https://www.browsersync.io/)
 * Automatically compile [Sass](http://sass-lang.com/) with [libsass](http://libsass.org)
-* Automatically lint your styles with [sass-lint](https://github.com/sasstools/sass-lint)
+* ~~Automatically lint your styles with [sass-lint](https://github.com/sasstools/sass-lint)~~
 * Map compiled CSS to source stylesheets with [source maps](https://www.npmjs.com/package/gulp-sourcemaps)
 * Awesome [image optimization](https://www.npmjs.com/package/gulp-imagemin)
 * Automatically generates html files from [Panini](https://github.com/zurb/panini) templates
