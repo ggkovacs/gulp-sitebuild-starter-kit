@@ -1,8 +1,7 @@
 node_modules
-dist*
+build*
 .tmp
 .sass-cache
-bower_components/*
 .DS_Store
 .idea
 nbproject
@@ -10,4 +9,4 @@ nbproject
 .project
 .settings
 Thumbs.db
-npm-debug.log
+._*
