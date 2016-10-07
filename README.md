@@ -62,5 +62,5 @@ Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boile
 ## License
 MIT © 2016 Gergely Kovács (gg.kovacs@gmail.com)
 
-[daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit
+[daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
+[daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies
