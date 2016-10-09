@@ -64,5 +64,5 @@ MIT © 2016 Gergely Kovács (gg.kovacs@gmail.com)
 
 [daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
 [daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies
-[travis-image]: https://travis-ci.org/ggkovacs/gulp-sane-watch.svg?branch=master
-[travis-url]: https://travis-ci.org/ggkovacs/gulp-sane-watch
+[travis-image]: https://travis-ci.org/ggkovacs/gulp-sitebuild-starter-kit.svg?branch=master
+[travis-url]: https://travis-ci.org/ggkovacs/gulp-sitebuild-starter-kit
