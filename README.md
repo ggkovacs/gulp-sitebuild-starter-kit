@@ -1,4 +1,4 @@
-# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Dependency Status][daviddm-image]][daviddm-url]
+# [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on Gulp 4
 
 Version: **3.0.0**
@@ -64,3 +64,5 @@ MIT © 2016 Gergely Kovács (gg.kovacs@gmail.com)
 
 [daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit
+[travis-image]: https://travis-ci.org/ggkovacs/gulp-sane-watch.svg?branch=master
+[travis-url]: https://travis-ci.org/ggkovacs/gulp-sane-watch
