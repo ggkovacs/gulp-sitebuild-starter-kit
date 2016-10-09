@@ -71,7 +71,7 @@ function styles() {
 }
 
 function images() {
-  return gulp.src('src/assets/images/**/*')
+  return gulp.src('src/assets/images/**/*.{jpg,jpeg,png,gif}')
     .pipe($.imagemin({
       progressive: true,
       interlaced: true
@@ -192,7 +192,7 @@ function watch() {
     .on('change', gulp.series(resetPages, styles));
 
   gulp
-    .watch('src/assets/images/**/*')
+    .watch('src/assets/images/**/*.{jpg,jpeg,png,gif}')
     .on('change', reload);
 }
 
