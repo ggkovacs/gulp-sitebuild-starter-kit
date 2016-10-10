@@ -190,7 +190,7 @@ function watch() {
     .on('change', gulp.series(resetPages, pages));
 
   gulp
-    .watch('src/assets/styles/*.s+(a|c)ss')
+    .watch('src/assets/styles/**/*.s+(a|c)ss')
     .on('change', gulp.series(resetPages, styles));
 
   gulp
