@@ -4,7 +4,7 @@
 Version: **3.0.1**
 
 ## Quickstart
-Download the kit or clone this repository and build on what is included in the app directory.
+Download the kit or clone this repository and build on what is included in the `src` directory.
 
 [Download](https://github.com/ggkovacs/gulp-sitebuild-starter-kit/releases/latest) and run the follwing code in that directory to get started.
 
@@ -52,8 +52,8 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
         │   ├── fonts          # Fonts folder containing fonts (.eot, .svg, .ttf, .woff, or .woff2).
         │   ├── images         # Images folder containing images (.jpg, .jpeg, .png, or .gif).
         │   └── styles         # Styles folder containing stylesheets (.scss, or .sass).
-        ├── data               # Data folder containing external data, which will be passed in to every page.
-        ├── helpers            # Helpers folder containing Handlebars helpers.
+        ├── data               # Data folder containing external data, which will be passed in to every page (.json, or .yml).
+        ├── helpers            # Helpers folder containing Handlebars helpers (.js).
         ├── layouts            # Layouts to a folder containing layouts (.html, .hbs, or .handlebars).
         ├── pages              # Pages to the root folder all pages live in.
         └── partials           # Partials to a folder containing HTML partials.
