@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on Gulp 4
 
-Version: **3.0.0**
+Version: **3.0.1**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the app directory.
@@ -10,6 +10,12 @@ Download the kit or clone this repository and build on what is included in the a
 
 ```sh
 $ npm i -g gulp-cli && npm i
+```
+
+or
+
+```sh
+$ yarn global add gulp-cli && yarn
 ```
 
 ## Features
@@ -35,9 +41,9 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 
 ## Getting Started
 
-- Install dependencies: `npm i -g gulp-cli && npm i`
-- Run `npm start` to preview and watch for changes
-- Run `npm run compile` to build and optimize your sitebuild
+- Install dependencies: `npm i -g gulp-cli && npm i` or `yarn global add gulp-cli && yarn`
+- Run `npm start` or `yarn start` to preview and watch for changes
+- Run `npm run compile` or `yarn compile` to build and optimize your sitebuild
 
 ## Browser Support
 
