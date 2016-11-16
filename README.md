@@ -45,6 +45,19 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 - Run `npm start` or `yarn start` to preview and watch for changes
 - Run `npm run compile` or `yarn compile` to build and optimize your sitebuild
 
+## Directory structure
+    .
+    └── src                    # Source folder
+        ├── assets             # Assets folder containing fonts, images, styles, svgs etc.
+        │   ├── fonts          # Fonts folder containing fonts (.eot, .svg, .ttf, .woff, or .woff2).
+        │   ├── images         # Images folder containing images (.jpg, .jpeg, .png, or .gif).
+        │   └── styles         # Styles folder containing stylesheets (.scss, or .sass).
+        ├── data               # Data folder containing external data, which will be passed in to every page.
+        ├── helpers            # Helpers folder containing Handlebars helpers.
+        ├── layouts            # Layouts to a folder containing layouts (.html, .hbs, or .handlebars).
+        ├── pages              # Pages to the root folder all pages live in.
+        └── partials           # Partials to a folder containing HTML partials.
+
 ## Browser Support
 
 At present, we officially aim to support the following browsers:
