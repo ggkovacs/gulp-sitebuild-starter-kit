@@ -12,7 +12,7 @@
     "eslint": "^3.7.1",
     "eslint-config-mito": "^6.0.0",
     "gulp": "git+https://github.com/gulpjs/gulp.git#4.0",
-    "gulp-clean-css": "^2.0.13",
+    "gulp-clean-css": "^2.2.1",
     "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.1",
     "gulp-imagemin": "^3.0.3",
