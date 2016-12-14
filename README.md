@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on Gulp 4
 
-Version: **3.0.1**
+Version: **3.0.2**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the `src` directory.
