@@ -9,7 +9,7 @@
     "apache-server-configs": "^2.14.0",
     "autoprefixer": "^6.6.0",
     "browser-sync": "^2.18.5",
-    "eslint": "^3.12.1",
+    "eslint": "^3.13.0",
     "eslint-config-mito": "^6.0.0",
     "gulp": "git+https://github.com/gulpjs/gulp.git#4.0",
     "gulp-clean-css": "^2.3.2",
