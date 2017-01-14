@@ -1,7 +1,7 @@
 /**
  *
  * Gulp sitebuild starter kit
- * Copyright 2016 Gergely Kovács (gg.kovacs@gmail.com)
+ * Copyright 2017 Gergely Kovács (gg.kovacs@gmail.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ const yargs = require('yargs');
 const bs = require('browser-sync');
 const panini = require('panini');
 
-const reload = bs.reload;
+const { reload } = bs;
 
 const PRODUCTION = !!yargs.argv.production || !!yargs.argv.prod;
 
@@ -160,7 +160,7 @@ function server(done) {
   let index = 'index.html';
 
   if (filesLen === 1) {
-    index = files[0];
+    [index] = files;
   } else if (filesLen > 1) {
     generateTableOfContent(files);
     index = '__toc.html';
