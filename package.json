@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "apache-server-configs": "^2.14.0",
-    "autoprefixer": "^6.6.1",
+    "autoprefixer": "^6.7.2",
     "browser-sync": "^2.18.6",
     "eslint": "^3.13.1",
     "eslint-config-mito": "^7.0.2",
