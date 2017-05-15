@@ -8,7 +8,7 @@
   "devDependencies": {
     "apache-server-configs": "^2.14.0",
     "autoprefixer": "^7.0.1",
-    "browser-sync": "^2.18.8",
+    "browser-sync": "^2.18.9",
     "eslint": "^3.19.0",
     "eslint-config-mito": "^7.0.2",
     "gulp": "git+https://github.com/gulpjs/gulp.git#4.0",
