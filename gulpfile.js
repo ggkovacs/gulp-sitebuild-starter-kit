@@ -1,7 +1,7 @@
 /**
  *
  * Gulp sitebuild starter kit
- * Copyright 2017 Gergely Kovács (gg.kovacs@gmail.com)
+ * Copyright 2019 Gergely Kovács (gg.kovacs@gmail.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,20 @@
  *
  */
 
-'use strict';
-
 const fs = require('fs');
-const path = require('path');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const rimraf = require('rimraf');
 const autoprefixer = require('autoprefixer');
-const yargs = require('yargs');
 const bs = require('browser-sync');
 const panini = require('panini');
 
 const { reload } = bs;
 
-const PRODUCTION = !!yargs.argv.production || !!yargs.argv.prod;
+const PRODUCTION = ['production'].includes(process.env.NODE_ENV);
 
 const processors = [
-  autoprefixer({
-    browsers: [
-      'ie >= 9',
-      'ff >= 30',
-      'chrome >= 34',
-      'safari >= 7',
-      'opera >= 23',
-      'ie_mob >= 10',
-      'ios >= 7',
-      'android >= 4.4',
-      'bb >= 10'
-    ]
-  })
+  autoprefixer()
 ];
 
 function clean(done) {
@@ -86,6 +70,41 @@ function fonts() {
     .pipe(gulp.dest('build/fonts'));
 }
 
+function html() {
+  return gulp.src('.tmp/*.html')
+    .pipe($.useref({
+      searchPath: [
+        '.tmp',
+        'src/assets',
+        '.'
+      ]
+    }))
+    .pipe($.if(/\.js$/, $.uglify({
+      compress: {
+        drop_console: true
+      }
+    })))
+    .pipe($.if(/\.css$/, $.cleanCss()))
+    .pipe($.if('*.js', $.rev()))
+    .pipe($.if('*.css', $.rev()))
+    .pipe($.revReplace())
+    .pipe($.if(/\.html$/, $.htmlmin({
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: {
+        compress: {
+          drop_console: true
+        }
+      },
+      processConditionalComments: true,
+      removeComments: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true
+    })))
+    .pipe(gulp.dest('build'));
+}
+
 function pages() {
   return gulp.src('src/pages/**/*.html')
     .pipe(panini({
@@ -95,18 +114,7 @@ function pages() {
       helpers: 'src/helpers',
       data: 'src/data'
     }))
-    .pipe($.if(PRODUCTION, $.htmlmin({
-      removeComments: true,
-      collapseWhitespace: true,
-      collapseBooleanAttributes: true,
-      removeAttributeQuotes: true,
-      removeRedundantAttributes: true,
-      removeEmptyAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      removeOptionalTags: true
-    })))
-    .pipe(gulp.dest(PRODUCTION ? 'build' : '.tmp'))
+    .pipe(gulp.dest('.tmp'))
     .pipe($.if(bs.active, reload({
       stream: true
     })));
@@ -118,60 +126,26 @@ function resetPages(done) {
 }
 
 function copy() {
-  return gulp.src([
-    'node_modules/apache-server-configs/dist/.htaccess'
-  ], {
+  const src = fs.readFileSync('./.copyrc', {
+    encoding: 'utf8',
+  })
+  .split('\n')
+  .filter((path) => path && path !== '');
+
+  return gulp.src(src, {
     dot: true
   }).pipe(gulp.dest('build'));
 }
 
-function generateTableOfContent(files) {
-  fs.writeFileSync('.tmp/__toc.html', `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <title>Table of contents</title>
-      <style>
-        body { background: #efefef; font-family: sans-serif; margin: 30px; }
-        h1 { color: #333; font-size: 24px; }
-        a { color: #0275d8; line-height: 24px; font-size: 16px; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-      </style>
-    </head>
-    <body>
-      <h1>Table of contents</h1>
-      <ul>
-        ${files.map(file => `
-          <li>
-            <a href="${file}" target="_blank">${file}</a>
-          </li>
-        `).join('')}
-      </ul>
-    </body>
-    </html>
-  `);
-}
-
 function server(done) {
-  const files = fs.readdirSync('src/pages').filter(file => path.extname(file) === '.html');
-  const filesLen = files.length;
-
-  let index = 'index.html';
-
-  if (filesLen === 1) {
-    [index] = files;
-  } else if (filesLen > 1) {
-    generateTableOfContent(files);
-    index = '__toc.html';
-  }
-
   bs.init({
     notify: false,
     logPrefix: 'GSSK',
     server: {
-      baseDir: ['.tmp', 'src/assets'],
-      index
+      baseDir: ['.tmp', 'src/assets', '.'],
+      index: [
+        'index.html'
+      ]
     },
     port: 3000
   }, done);
@@ -196,7 +170,11 @@ function watch() {
   gulp
     .watch('src/assets/images/**/*.{jpg,jpeg,png,gif}')
     .on('change', reload);
+
+  gulp
+    .watch('src/assets/scripts/**/*.js')
+    .on('change', reload);
 }
 
-gulp.task('compile', gulp.series(clean, gulp.parallel(styles, images, fonts, pages, copy)));
+gulp.task('compile', gulp.series(clean, gulp.parallel(styles, pages, fonts), gulp.parallel(html, images, copy)));
 gulp.task('watch', gulp.series(clean, gulp.parallel(styles, pages), server, watch));

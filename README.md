@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-sitebuild-starter-kit [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > Sitebuild starter kit based on Gulp 4
 
-Version: **3.0.8**
+Version: **4.0.0**
 
 ## Quickstart
 Download the kit or clone this repository and build on what is included in the `src` directory.
@@ -25,7 +25,6 @@ Please see our [gulpfile](gulpfile.babel.js) for up to date information on what 
 * CSS [Autoprefixing](https://github.com/postcss/autoprefixer)
 * Built-in preview server with [BrowserSync](https://www.browsersync.io/)
 * Automatically compile [Sass](http://sass-lang.com/) with [libsass](http://libsass.org)
-* ~~Automatically lint your styles with [sass-lint](https://github.com/sasstools/sass-lint)~~
 * Map compiled CSS to source stylesheets with [source maps](https://www.npmjs.com/package/gulp-sourcemaps)
 * Awesome [image optimization](https://www.npmjs.com/package/gulp-imagemin)
 * Automatically generates html files from [Panini](https://github.com/zurb/panini) templates
@@ -58,19 +57,13 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
         ├── pages              # Pages to the root folder all pages live in.
         └── partials           # Partials to a folder containing HTML partials.
 
-## Browser Support
+## Browser Support (.browserslistrc)
 
 At present, we officially aim to support the following browsers:
 
-- ie >= 9
-- ff >= 30
-- chrome >= 34
-- safari >= 7
-- opera >= 23
-- ie_mob >= 10
-- ios >= 7
-- android >= 4.4
-- bb >= 10
+- > 5%
+- last 2 versions
+- not ie <= 10
 
 This is not to say that kit cannot be used in browsers older than those reflected, but merely that our focus will be on ensuring our layouts work great in the above.
 
@@ -79,7 +72,7 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
 
 ## License
-MIT © 2017 Gergely Kovács (gg.kovacs@gmail.com)
+MIT © 2019 Gergely Kovács (gg.kovacs@gmail.com)
 
 [daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
 [daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies
