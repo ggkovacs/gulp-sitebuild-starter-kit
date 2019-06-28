@@ -127,10 +127,10 @@ function resetPages(done) {
 
 function copy() {
   const src = fs.readFileSync('./.copyrc', {
-    encoding: 'utf8',
+    encoding: 'utf8'
   })
-  .split('\n')
-  .filter((path) => path && path !== '');
+    .split('\n')
+    .filter(path => path && path !== '');
 
   return gulp.src(src, {
     dot: true
