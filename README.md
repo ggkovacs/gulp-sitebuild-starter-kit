@@ -42,14 +42,16 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 
 - Install dependencies: `npm i -g gulp-cli && npm i` or `yarn global add gulp-cli && yarn`
 - Run `npm start` or `yarn start` to preview and watch for changes
-- Run `npm run compile` or `yarn compile` to build and optimize your sitebuild
+- Run `npm run build` or `yarn build` to build and optimize your sitebuild
 
 ## Directory structure
     .
     └── src                    # Source folder
         ├── assets             # Assets folder containing fonts, images, styles, svgs etc.
+        │   ├── favicons       # Favicons folder containing icons (.png, .ico, .svg etc.).
         │   ├── fonts          # Fonts folder containing fonts (.eot, .svg, .ttf, .woff, or .woff2).
         │   ├── images         # Images folder containing images (.jpg, .jpeg, .png, or .gif).
+        │   ├── scripts        # Scripts folder containing JavaScript files (.js).
         │   └── styles         # Styles folder containing stylesheets (.scss, or .sass).
         ├── data               # Data folder containing external data, which will be passed in to every page (.json, or .yml).
         ├── helpers            # Helpers folder containing Handlebars helpers (.js).
@@ -61,7 +63,7 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 
 At present, we officially aim to support the following browsers:
 
-- > 5%
+- \> 5%
 - last 2 versions
 - not ie <= 10
 
