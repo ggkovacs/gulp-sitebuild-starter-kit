@@ -74,7 +74,7 @@ This is not to say that kit cannot be used in browsers older than those reflecte
 Gulp Sitebuild Starter Kit is inspired by [HTML5 Boilerplate](https://html5boilerplate.com/), Yeoman's [generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) and [Web Starter Kit](https://github.com/google/web-starter-kit).
 
 ## License
-MIT © 2019 Gergely Kovács (gg.kovacs@gmail.com)
+MIT © 2020 Gergely Kovács (gg.kovacs@gmail.com)
 
 [daviddm-image]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit/dev-status.svg
 [daviddm-url]: https://david-dm.org/ggkovacs/gulp-sitebuild-starter-kit#info=devDependencies
